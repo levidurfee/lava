@@ -11,6 +11,8 @@ var Game = function () {
         this.player = document.querySelectorAll(player)[0];
         this.coins = document.querySelectorAll(coins);
         this.lava = document.querySelectorAll(lava);
+        this.coinsLocation = Array();
+        this.lavaLocation = Array();
         /**
         * Since there is more than one coin, I need to get the coords
         * for both coins.
@@ -57,6 +59,15 @@ var Game = function () {
                 }
             }
         }
+    }, {
+        key: 'checkLava',
+        value: function checkLava(playerLocation, lavaLocation) {
+            for (var i = 0; i < this.lavaLocation.length; i++) {
+                if (this.checkOverlap(playerLocation, this.lavaLocation[i])) {
+                    console.log('you much dead. -1 for u.');
+                }
+            }
+        }
         /**
         * Check if the one html object is overlapping another
         *
@@ -68,15 +79,6 @@ var Game = function () {
         value: function checkOverlap(rectOne, rectTwo) {
             var overlap = !(rectOne.right < rectTwo.left || rectOne.left > rectTwo.right || rectOne.bottom < rectTwo.top || rectOne.top > rectTwo.bottom);
             return overlap;
-        }
-    }, {
-        key: 'checkLava',
-        value: function checkLava(playerLocation, lavaLocation) {
-            for (var i = 0; i < this.lavaLocation.length; i++) {
-                if (this.checkOverlap(playerLocation, this.lavaLocation[i])) {
-                    console.log('you much dead. -1 for u.');
-                }
-            }
         }
     }, {
         key: 'populateCoinLocations',
