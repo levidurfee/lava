@@ -54,13 +54,17 @@ var Game = function () {
                 }
             }
         }
+        /**
+        * Check if the one html object is overlapping another
+        *
+        * Will return true if they overlap
+        */
+
     }, {
         key: 'checkOverlap',
         value: function checkOverlap(rectOne, rectTwo) {
             var overlap = !(rectOne.right < rectTwo.left || rectOne.left > rectTwo.right || rectOne.bottom < rectTwo.top || rectOne.top > rectTwo.bottom);
-            if (overlap) {
-                alert('you won the game');
-            }
+            return overlap;
         }
     }, {
         key: 'checkLava',

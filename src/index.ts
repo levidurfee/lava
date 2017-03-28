@@ -52,15 +52,18 @@ class Game {
         }
     }
 
+    /**
+    * Check if the one html object is overlapping another
+    *
+    * Will return true if they overlap
+    */
 	public checkOverlap(rectOne: any, rectTwo: any) {
 		var overlap = !(rectOne.right < rectTwo.left || 
 	        rectOne.left > rectTwo.right || 
 	        rectOne.bottom < rectTwo.top || 
 	        rectOne.top > rectTwo.bottom)
-		if(overlap) {
-			alert('you won the game');
-		}
-	}
+		return overlap;
+    }
 
 	public checkLava() {
 		var rectOne = this.player.getBoundingClientRect();
