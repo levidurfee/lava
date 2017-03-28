@@ -45,8 +45,10 @@ class Game {
 	}
 
     public checkWinner(playerLocation: any, coinsLocation: any) {
-        if(this.checkOverlap(playerLocation, coinsLocation)) {
-            alert('you won');
+        for(var i=0; i<this.coinsLocation.length; i++) {
+            if(this.checkOverlap(playerLocation, this.coinsLocation[i])) {
+                console.log('yay, much coens good.');
+            }
         }
     }
 
