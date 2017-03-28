@@ -8,14 +8,18 @@ class Game {
 	constructor(player: string, coins: string, lava: string) {
 		this.player = document.querySelectorAll(player)[0];
 		this.coins = document.querySelectorAll(coins);
-		this.lava = document.querySelector(lava);
-		this.lavaLocation = this.lava.getBoundingClientRect();
+		this.lava = document.querySelectorAll(lava);
 
         /**
         * Since there is more than one coin, I need to get the coords
         * for both coins.
         */
         this.populateCoinLocations();
+
+        /**
+        * There could be more than one lava pit! AHH
+        */
+        this.populateLavaLocations();
 	}
 
 	public move(e: any) {
@@ -41,7 +45,7 @@ class Game {
 		}
 
 		this.checkOverlap(playerLocation, this.coinsLocation);
-		this.checkLava();
+		this.checkLava(playerLocation, this.lavaLocation);
 	}
 
     public checkWinner(playerLocation: any, coinsLocation: any) {
@@ -65,20 +69,23 @@ class Game {
 		return overlap;
     }
 
-	public checkLava() {
-		var rectOne = this.player.getBoundingClientRect();
-		var overlap = !(rectOne.right < this.lavaLocation.left || 
-	        rectOne.left > this.lavaLocation.right || 
-	        rectOne.bottom < this.lavaLocation.top || 
-	        rectOne.top > this.lavaLocation.bottom)
-		if(overlap) {
-			alert('you much dead');
-		}
-	}
+	public checkLava(playerLocation: any, lavaLocation: any) {
+	    for(var i=0; i<this.lavaLocation.length; i++) {
+            if(this.checkOverlap(playerLocation, this.lavaLocation[i])) {
+                console.log('you much dead. -1 for u.');
+            }
+        }
+    }
 
     private populateCoinLocations() {
         for(var i=0; i<this.coins.length; i++) {
             this.coinsLocation[i] = this.coins[i].getBoundingClientRect();
+        }
+    }
+
+    private populateLavaLocations() {
+        for(var i=0; i<this.lava.length; i++) {
+            this.lavaLocation[i] = this.lava[i].getBoundingClientRect();
         }
     }
 }

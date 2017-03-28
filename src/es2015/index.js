@@ -10,13 +10,16 @@ var Game = function () {
 
         this.player = document.querySelectorAll(player)[0];
         this.coins = document.querySelectorAll(coins);
-        this.lava = document.querySelector(lava);
-        this.lavaLocation = this.lava.getBoundingClientRect();
+        this.lava = document.querySelectorAll(lava);
         /**
         * Since there is more than one coin, I need to get the coords
         * for both coins.
         */
         this.populateCoinLocations();
+        /**
+        * There could be more than one lava pit! AHH
+        */
+        this.populateLavaLocations();
     }
 
     _createClass(Game, [{
@@ -43,7 +46,7 @@ var Game = function () {
                 this.player.style.left = newLocation + 'px';
             }
             this.checkOverlap(playerLocation, this.coinsLocation);
-            this.checkLava();
+            this.checkLava(playerLocation, this.lavaLocation);
         }
     }, {
         key: 'checkWinner',
@@ -68,11 +71,11 @@ var Game = function () {
         }
     }, {
         key: 'checkLava',
-        value: function checkLava() {
-            var rectOne = this.player.getBoundingClientRect();
-            var overlap = !(rectOne.right < this.lavaLocation.left || rectOne.left > this.lavaLocation.right || rectOne.bottom < this.lavaLocation.top || rectOne.top > this.lavaLocation.bottom);
-            if (overlap) {
-                alert('you much dead');
+        value: function checkLava(playerLocation, lavaLocation) {
+            for (var i = 0; i < this.lavaLocation.length; i++) {
+                if (this.checkOverlap(playerLocation, this.lavaLocation[i])) {
+                    console.log('you much dead. -1 for u.');
+                }
             }
         }
     }, {
@@ -80,6 +83,13 @@ var Game = function () {
         value: function populateCoinLocations() {
             for (var i = 0; i < this.coins.length; i++) {
                 this.coinsLocation[i] = this.coins[i].getBoundingClientRect();
+            }
+        }
+    }, {
+        key: 'populateLavaLocations',
+        value: function populateLavaLocations() {
+            for (var i = 0; i < this.lava.length; i++) {
+                this.lavaLocation[i] = this.lava[i].getBoundingClientRect();
             }
         }
     }]);
