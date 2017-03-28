@@ -10,9 +10,13 @@ var Game = function () {
 
         this.player = document.querySelectorAll(player)[0];
         this.coins = document.querySelectorAll(coins);
-        this.coinsLocation = this.coins[0].getBoundingClientRect();
         this.lava = document.querySelector(lava);
         this.lavaLocation = this.lava.getBoundingClientRect();
+        /**
+        * Since there is more than one coin, I need to get the coords
+        * for both coins.
+        */
+        this.populateCoinLocations();
     }
 
     _createClass(Game, [{
