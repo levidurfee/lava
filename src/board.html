@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>game</title>
+	<style type="text/css">
+		body, div, p, span {margin:0;padding:0;}
+		body {background-color:#34a6fb;}
+
+		.player {background-color: #404040;}
+		.land {background-color: #ffffff;}
+		.lava {background-color: #ff6363;}
+		.coins {background-color: #f1e559;}
+
+		.coin {
+			position: absolute;
+			width:50px; height:50px;
+		}
+		.coin__1 {bottom:60%;left:15%;}
+		.coin__2 {bottom:60%;left:25%;}
+
+		.land {position: absolute;}
+		.land__1 {bottom:40%;width:39.6%;height:50px;left:0;}
+		.land__2 {bottom:40%;width:48%;height:50px;right:0;}
+
+		.wall__1 {left:35%; bottom:0; height:40%; width:50px; }
+		.wall__2 {left:52%; bottom:0; height:40%; width:50px; }
+
+		.lavas {position: absolute;}
+		.lava__1 {bottom: 0; left: 39%; height: 35%; width: 15%; z-index: -1; }
+
+		.player {width:30px;height:50px;color:#ffffff;line-height: 50px;text-align: center;font-family: Verdana,Geneva,sans-serif}
+		.player__1 {position: absolute;right:20%;bottom:50%;}
+	</style>
+</head>
+<body>
+	<div class="coins coin coin__1"></div>
+	<div class="coins coin coin__2"></div>
+	
+	<div class="lands land land__1"></div>
+	<div class="lands land wall__1"></div>
+
+	<div class="lavas lava lava__1"></div>
+
+	<div class="lands land wall__2"></div>
+	<div class="lands land land__2"></div>
+
+	<div class="player player__1">p</div>
+
+	<script type="text/javascript" src="es2015/index.js"></script>
+	<script type="text/javascript">
+		game = new Game('.player__1', '.coins', '.lavas');
+		document.onkeydown = function(e) {
+			game.move(e);
+		}
+	</script>
+</body>
+</html>
