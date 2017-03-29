@@ -98,7 +98,7 @@ class Game {
     * @param {any} playerLocation
     * @param {any} coinLocation
     */
-    public checkWinner(playerLocation: any, coinsLocation: any) {
+    private checkWinner(playerLocation: any, coinsLocation: any) {
         /* loop through coins and check for overlap */
         for(var i=0; i<this.coinsLocation.length; i++) {
             /* if they overlap, they get a little prize */
@@ -115,7 +115,7 @@ class Game {
     * @param {any} playerLocation
     * @param {any} lavaLocation
     */
-	public checkLava(playerLocation: any, lavaLocation: any) {
+	private checkLava(playerLocation: any, lavaLocation: any) {
         /* loop through the lavas */
 	    for(var i=0; i<this.lavaLocation.length; i++) {
             /* check if player is in there somewhere */
@@ -133,7 +133,7 @@ class Game {
     * @param {any} rectOne
     * @param {any} rectTwo
     */
-	public checkOverlap(rectOne: any, rectTwo: any) {
+	private checkOverlap(rectOne: any, rectTwo: any) {
 		var overlap = !(rectOne.right < rectTwo.left || 
 	        rectOne.left > rectTwo.right || 
 	        rectOne.bottom < rectTwo.top || 
