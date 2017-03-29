@@ -52,7 +52,7 @@ var Game = function () {
                 newLocation = playerLocation.left + this.distance;
                 this.player.style.left = newLocation + 'px';
             }
-            this.checkOverlap(playerLocation, this.coinsLocation);
+            this.checkWinner(playerLocation, this.coinsLocation);
             this.checkLava(playerLocation, this.lavaLocation);
         }
     }, {
