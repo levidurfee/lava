@@ -1,4 +1,12 @@
 class Game {
+    /**
+    * Construct the game!
+    *
+    * @param {string} player Currently only 1p
+    * @param {string} coins CSS Selector for coins
+    * @param {string} lava CSS Selector for lava(s)
+    * @param {number} distance The distance the player travels
+    */
     constructor(player, coins, lava, distance) {
         this.player = document.querySelectorAll(player)[0];
         this.coins = document.querySelectorAll(coins);

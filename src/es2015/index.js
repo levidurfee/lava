@@ -5,6 +5,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Game = function () {
+    /**
+    * Construct the game!
+    *
+    * @param {string} player Currently only 1p
+    * @param {string} coins CSS Selector for coins
+    * @param {string} lava CSS Selector for lava(s)
+    * @param {number} distance The distance the player travels
+    */
     function Game(player, coins, lava, distance) {
         _classCallCheck(this, Game);
 
