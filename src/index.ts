@@ -39,7 +39,7 @@ class Game {
 
         /**
         * Check and see if the distance param was passed. If it was then set
-        * the distance property equal to the param. If it wasn't, use the 
+        * the distance property equal to the param. If it wasn't, use the
         * default of 10px.
         */
         if(distance) {
@@ -82,21 +82,45 @@ class Game {
 			this.player.style.left = newLocation + 'px';
 		}
 
+        /*
+        * check player's location after each move
+        * did player get some COINS?! or
+        * did player think the lava was kool-aid and now much ded.
+        * must check for these things.
+        */
 		this.checkWinner(playerLocation, this.coinsLocation);
 		this.checkLava(playerLocation, this.lavaLocation);
 	}
 
+    /**
+    * Check if they won some coins
+    *
+    * @param {any} playerLocation
+    * @param {any} coinLocation
+    */
     public checkWinner(playerLocation: any, coinsLocation: any) {
+        /* loop through coins and check for overlap */
         for(var i=0; i<this.coinsLocation.length; i++) {
+            /* if they overlap, they get a little prize */
             if(this.checkOverlap(playerLocation, this.coinsLocation[i])) {
+                /* will eventually keep score #4 */
                 console.log('yay, much coens good.');
             }
         }
     }
 
+    /**
+    * Check if they swam with the lavas
+    *
+    * @param {any} playerLocation
+    * @param {any} lavaLocation
+    */
 	public checkLava(playerLocation: any, lavaLocation: any) {
+        /* loop through the lavas */
 	    for(var i=0; i<this.lavaLocation.length; i++) {
+            /* check if player is in there somewhere */
             if(this.checkOverlap(playerLocation, this.lavaLocation[i])) {
+                /* not sure what will happen after death */
                 console.log('you much dead. -1 for u.');
             }
         }
@@ -104,8 +128,10 @@ class Game {
 
     /**
     * Check if the one html object is overlapping another
-    *
     * Will return true if they overlap
+    *
+    * @param {any} rectOne
+    * @param {any} rectTwo
     */
 	public checkOverlap(rectOne: any, rectTwo: any) {
 		var overlap = !(rectOne.right < rectTwo.left || 
@@ -115,12 +141,18 @@ class Game {
 		return overlap;
     }
 
+    /**
+    * Build the property coinsLocation array
+    */
     private populateCoinLocations() {
         for(var i=0; i<this.coins.length; i++) {
             this.coinsLocation[i] = this.coins[i].getBoundingClientRect();
         }
     }
 
+    /**
+    * Build the property lavaLocation array
+    */
     private populateLavaLocations() {
         for(var i=0; i<this.lava.length; i++) {
             this.lavaLocation[i] = this.lava[i].getBoundingClientRect();

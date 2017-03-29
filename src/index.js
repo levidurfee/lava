@@ -69,27 +69,53 @@ class Game {
             newLocation = playerLocation.left + this.distance;
             this.player.style.left = newLocation + 'px';
         }
+        /*
+        * check player's location after each move
+        * did player get some COINS?! or
+        * did player think the lava was kool-aid and now much ded.
+        * must check for these things.
+        */
         this.checkWinner(playerLocation, this.coinsLocation);
         this.checkLava(playerLocation, this.lavaLocation);
     }
+    /**
+    * Check if they won some coins
+    *
+    * @param {any} playerLocation
+    * @param {any} coinLocation
+    */
     checkWinner(playerLocation, coinsLocation) {
+        /* loop through coins and check for overlap */
         for (var i = 0; i < this.coinsLocation.length; i++) {
+            /* if they overlap, they get a little prize */
             if (this.checkOverlap(playerLocation, this.coinsLocation[i])) {
+                /* will eventually keep score #4 */
                 console.log('yay, much coens good.');
             }
         }
     }
+    /**
+    * Check if they swam with the lavas
+    *
+    * @param {any} playerLocation
+    * @param {any} lavaLocation
+    */
     checkLava(playerLocation, lavaLocation) {
+        /* loop through the lavas */
         for (var i = 0; i < this.lavaLocation.length; i++) {
+            /* check if player is in there somewhere */
             if (this.checkOverlap(playerLocation, this.lavaLocation[i])) {
+                /* not sure what will happen after death */
                 console.log('you much dead. -1 for u.');
             }
         }
     }
     /**
     * Check if the one html object is overlapping another
-    *
     * Will return true if they overlap
+    *
+    * @param {any} rectOne
+    * @param {any} rectTwo
     */
     checkOverlap(rectOne, rectTwo) {
         var overlap = !(rectOne.right < rectTwo.left ||
@@ -98,11 +124,17 @@ class Game {
             rectOne.top > rectTwo.bottom);
         return overlap;
     }
+    /**
+    * Build the property coinsLocation array
+    */
     populateCoinLocations() {
         for (var i = 0; i < this.coins.length; i++) {
             this.coinsLocation[i] = this.coins[i].getBoundingClientRect();
         }
     }
+    /**
+    * Build the property lavaLocation array
+    */
     populateLavaLocations() {
         for (var i = 0; i < this.lava.length; i++) {
             this.lavaLocation[i] = this.lava[i].getBoundingClientRect();
