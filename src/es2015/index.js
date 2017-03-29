@@ -5,7 +5,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Game = function () {
-    function Game(player, coins, lava) {
+    function Game(player, coins, lava, distance) {
         _classCallCheck(this, Game);
 
         this.player = document.querySelectorAll(player)[0];
@@ -22,6 +22,11 @@ var Game = function () {
         * There could be more than one lava pit! AHH
         */
         this.populateLavaLocations();
+        if (distance) {
+            this.distance = distance;
+        } else {
+            this.distance = 10;
+        }
     }
 
     _createClass(Game, [{
@@ -32,19 +37,19 @@ var Game = function () {
             var newLocation = void 0;
             if (e.keyCode == '38') {
                 //console.log('up');
-                newLocation = playerLocation.top - 10;
+                newLocation = playerLocation.top - this.distance;
                 this.player.style.top = newLocation + 'px';
             } else if (e.keyCode == '40') {
                 //console.log('down');
-                newLocation = playerLocation.top + 10;
+                newLocation = playerLocation.top + this.distance;
                 this.player.style.top = newLocation + 'px';
             } else if (e.keyCode == '37') {
                 //console.log('left');
-                newLocation = playerLocation.left - 10;
+                newLocation = playerLocation.left - this.distance;
                 this.player.style.left = newLocation + 'px';
             } else if (e.keyCode == '39') {
                 //console.log('right');
-                newLocation = playerLocation.left + 10;
+                newLocation = playerLocation.left + this.distance;
                 this.player.style.left = newLocation + 'px';
             }
             this.checkOverlap(playerLocation, this.coinsLocation);

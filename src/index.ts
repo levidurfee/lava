@@ -5,7 +5,10 @@ class Game {
 	public lava: any;
 	public lavaLocation: any;
 	public listener: any;
-	constructor(player: string, coins: string, lava: string) {
+
+    public distance: any;
+
+	constructor(player: string, coins: string, lava: string, distance?: number) {
 		this.player = document.querySelectorAll(player)[0];
 		this.coins = document.querySelectorAll(coins);
 		this.lava = document.querySelectorAll(lava);
@@ -23,6 +26,12 @@ class Game {
         * There could be more than one lava pit! AHH
         */
         this.populateLavaLocations();
+
+        if(distance) {
+            this.distance = distance;
+        } else {
+            this.distance = 10;
+        }
 	}
 
 	public move(e: any) {
@@ -31,19 +40,19 @@ class Game {
 		let newLocation;
 		if (e.keyCode == '38') {
 			//console.log('up');
-			newLocation = <number>playerLocation.top - 10;
+			newLocation = <number>playerLocation.top - this.distance;
 			this.player.style.top = newLocation + 'px';
 		} else if (e.keyCode == '40') {
 			//console.log('down');
-			newLocation = <number>playerLocation.top + 10;
+			newLocation = <number>playerLocation.top + this.distance;
 			this.player.style.top = newLocation + 'px';
 		} else if (e.keyCode == '37') {
 			//console.log('left');
-			newLocation = <number>playerLocation.left - 10;
+			newLocation = <number>playerLocation.left - this.distance;
 			this.player.style.left = newLocation + 'px';
 		} else if (e.keyCode == '39') {
 			//console.log('right');
-			newLocation = <number>playerLocation.left + 10;
+			newLocation = <number>playerLocation.left + this.distance;
 			this.player.style.left = newLocation + 'px';
 		}
 
