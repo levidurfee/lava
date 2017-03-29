@@ -39,7 +39,7 @@ class Game {
 
         /**
         * Check and see if the distance param was passed. If it was then set
-        * the distance property equal to the param. If it wasn't, use the
+        * the distance property equal to the param. If it wasn't, use the 
         * default of 10px.
         */
         if(distance) {
@@ -49,25 +49,36 @@ class Game {
         }
 	}
 
+    /**
+    * @param {event} e Get the onkeydown event
+    */
 	public move(e: any) {
 		e = e || window.event;
+        /* we need to get the player's location for each move  */
 		let playerLocation = this.player.getBoundingClientRect();
+
+        /* where ya going playa?  */
 		let newLocation;
-		if (e.keyCode == '38') {
-			//console.log('up');
+
+		/**
+        * The player will attempt to make a move. Will eventually restrict
+        * movement so the player can't go through walls or off the screen
+        */
+        if (e.keyCode == '38') {
+            /* if the player moved up  */
 			newLocation = <number>playerLocation.top - this.distance;
 			this.player.style.top = newLocation + 'px';
 		} else if (e.keyCode == '40') {
-			//console.log('down');
-			newLocation = <number>playerLocation.top + this.distance;
+			/* if the player moved down */
+            newLocation = <number>playerLocation.top + this.distance;
 			this.player.style.top = newLocation + 'px';
 		} else if (e.keyCode == '37') {
-			//console.log('left');
-			newLocation = <number>playerLocation.left - this.distance;
+			/* if the player moved left */
+            newLocation = <number>playerLocation.left - this.distance;
 			this.player.style.left = newLocation + 'px';
 		} else if (e.keyCode == '39') {
-			//console.log('right');
-			newLocation = <number>playerLocation.left + this.distance;
+			/* if the player moved right */
+            newLocation = <number>playerLocation.left + this.distance;
 			this.player.style.left = newLocation + 'px';
 		}
 

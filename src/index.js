@@ -36,27 +36,36 @@ class Game {
             this.distance = 10;
         }
     }
+    /**
+    * @param {event} e Get the onkeydown event
+    */
     move(e) {
         e = e || window.event;
+        /* we need to get the player's location for each move  */
         let playerLocation = this.player.getBoundingClientRect();
+        /* where ya going playa?  */
         let newLocation;
+        /**
+        * The player will attempt to make a move. Will eventually restrict
+        * movement so the player can't go through walls or off the screen
+        */
         if (e.keyCode == '38') {
-            //console.log('up');
+            /* if the player moved up  */
             newLocation = playerLocation.top - this.distance;
             this.player.style.top = newLocation + 'px';
         }
         else if (e.keyCode == '40') {
-            //console.log('down');
+            /* if the player moved down */
             newLocation = playerLocation.top + this.distance;
             this.player.style.top = newLocation + 'px';
         }
         else if (e.keyCode == '37') {
-            //console.log('left');
+            /* if the player moved left */
             newLocation = playerLocation.left - this.distance;
             this.player.style.left = newLocation + 'px';
         }
         else if (e.keyCode == '39') {
-            //console.log('right');
+            /* if the player moved right */
             newLocation = playerLocation.left + this.distance;
             this.player.style.left = newLocation + 'px';
         }
