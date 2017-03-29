@@ -8,9 +8,11 @@ class Game {
     * @param {number} distance The distance the player travels
     */
     constructor(player, coins, lava, distance) {
+        /* currently only supports one player  */
         this.player = document.querySelectorAll(player)[0];
         this.coins = document.querySelectorAll(coins);
         this.lava = document.querySelectorAll(lava);
+        /* these are arrays! and they hold the location(s) */
         this.coinsLocation = Array();
         this.lavaLocation = Array();
         /**
@@ -22,6 +24,11 @@ class Game {
         * There could be more than one lava pit! AHH
         */
         this.populateLavaLocations();
+        /**
+        * Check and see if the distance param was passed. If it was then set
+        * the distance property equal to the param. If it wasn't, use the
+        * default of 10px.
+        */
         if (distance) {
             this.distance = distance;
         }
