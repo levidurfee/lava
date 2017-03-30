@@ -35,6 +35,10 @@ class Game {
         else {
             this.distance = 10;
         }
+        /**
+         * The score starts at 0
+         */
+        this.score = 0;
     }
     /**
     * @param {event} e Get the onkeydown event

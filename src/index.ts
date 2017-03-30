@@ -8,6 +8,8 @@ class Game {
 
     public distance: any;
 
+    public score: number;
+
     /**
     * Construct the game!
     *
@@ -47,6 +49,11 @@ class Game {
         } else {
             this.distance = 10;
         }
+
+        /**
+         * The score starts at 0
+         */
+        this.score = 0;
 	}
 
     /**
