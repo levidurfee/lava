@@ -164,6 +164,15 @@ var Game = function () {
                 this.lavaLocation[i] = this.lava[i].getBoundingClientRect();
             }
         }
+        /**
+         * incrementScore by one.
+         */
+
+    }, {
+        key: 'incrementScore',
+        value: function incrementScore() {
+            this.score++;
+        }
     }]);
 
     return Game;

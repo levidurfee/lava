@@ -165,5 +165,12 @@ class Game {
             this.lavaLocation[i] = this.lava[i].getBoundingClientRect();
         }
     }
+
+    /**
+     * incrementScore by one.
+     */
+    private incrementScore() {
+        this.score++;
+    }
 }
 
