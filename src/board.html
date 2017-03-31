@@ -29,13 +29,30 @@
 		.lava__1 {bottom: 0; left: 39%; height: 35%; width: 15%; z-index: -1; }
 
 		.player {width:30px;height:50px;color:#ffffff;line-height: 50px;text-align: center;font-family: Verdana,Geneva,sans-serif}
-		.player__1 {position: absolute;right:20%;bottom:50%;}
+    .player__1 {position: absolute;right:20%;bottom:50%;}
+
+    #score {
+      position:absolute;
+      top:5px;
+      right:5px;
+      width:120px;
+      height:40px;
+      border:5px solid #000;
+      font-family: Verdana,Geneva,sans-serif;
+    }
+    .score__tracker {display:inline;}
 	</style>
 </head>
 <body>
+  <div id="score">
+    Coins:
+    <div class="score__tracker" id="score__tracker--coins">0</div>
+    Deads:
+    <div class="score__tracker" id="score__tracker--deads">0</div>
+  </div>
 	<div class="coins coin coin__1"></div>
 	<div class="coins coin coin__2"></div>
-	
+
 	<div class="lands land land__1"></div>
 	<div class="lands land wall__1"></div>
 

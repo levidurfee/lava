@@ -11,6 +11,7 @@ class Game {
     public distance: any;
 
     public score: number;
+    public deads: number;
 
     /**
     * Construct the game!
@@ -56,6 +57,11 @@ class Game {
          * The score starts at 0
          */
         this.score = 0;
+
+        /**
+        * The deads starts at 0
+        */
+        this.deads = 0;
 	}
 
     /**
@@ -97,7 +103,7 @@ class Game {
         * did player think the lava was kool-aid and now much ded.
         * must check for these things.
         */
-		this.checkWinner(playerLocation, this.coinsLocation, this.incrementScore);
+		this.checkWinner(playerLocation, this.coinsLocation);
 		this.checkLava(playerLocation, this.lavaLocation);
 	}
 
