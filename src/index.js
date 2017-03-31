@@ -79,7 +79,7 @@ class Game {
         * did player think the lava was kool-aid and now much ded.
         * must check for these things.
         */
-        this.checkWinner(playerLocation, this.coinsLocation, this.incrementScore);
+        this.checkWinner(playerLocation, this.coinsLocation);
         this.checkLava(playerLocation, this.lavaLocation);
     }
     /**
