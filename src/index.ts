@@ -1,3 +1,5 @@
+interface gameCallback { (): void }
+
 class Game {
 	public player: any;
 	public coins: any;
@@ -95,7 +97,7 @@ class Game {
         * did player think the lava was kool-aid and now much ded.
         * must check for these things.
         */
-		this.checkWinner(playerLocation, this.coinsLocation);
+		this.checkWinner(playerLocation, this.coinsLocation, this.incrementScore);
 		this.checkLava(playerLocation, this.lavaLocation);
 	}
 
@@ -110,8 +112,10 @@ class Game {
         for(var i=0; i<this.coinsLocation.length; i++) {
             /* if they overlap, they get a little prize */
             if(this.checkOverlap(playerLocation, this.coinsLocation[i])) {
-                /* will eventually keep score #4 */
+                /* callback fixes #4 */
+                this.incrementScore();
                 console.log('yay, much coens good.');
+                console.log('you have ' + this.score + ' coens, k?');
             }
         }
     }
