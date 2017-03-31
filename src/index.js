@@ -43,6 +43,7 @@ class Game {
         * The deads starts at 0
         */
         this.deads = 0;
+        this.liveProperties = ["score", "deads"];
     }
     /**
     * @param {event} e Get the onkeydown event
@@ -85,6 +86,7 @@ class Game {
         */
         this.checkWinner(playerLocation, this.coinsLocation);
         this.checkLava(playerLocation, this.lavaLocation);
+        this.liveUpdate();
     }
     /**
     * Check if they won some coins
@@ -98,8 +100,8 @@ class Game {
             /* if they overlap, they get a little prize */
             if (this.checkOverlap(playerLocation, this.coinsLocation[i])) {
                 this.score++;
-                console.log('yay, much coens good.');
-                console.log('you have ' + this.score + ' coens, k?');
+                //console.log('yay, much coens good.');
+                //console.log('you have ' + this.score + ' coens, k?');
             }
         }
     }
@@ -116,7 +118,8 @@ class Game {
             if (this.checkOverlap(playerLocation, this.lavaLocation[i])) {
                 /* when ded reset score to 0 */
                 this.score = 0;
-                console.log('you much dead. -1 for u.');
+                this.deads++;
+                //console.log('you much dead. -1 for u.');
             }
         }
     }
@@ -148,6 +151,18 @@ class Game {
     populateLavaLocations() {
         for (var i = 0; i < this.lava.length; i++) {
             this.lavaLocation[i] = this.lava[i].getBoundingClientRect();
+        }
+    }
+    /**
+    * Update the containers with the latest value in the property
+    */
+    liveUpdate() {
+        let val;
+        let el;
+        for (var i = 0; i < this.liveProperties.length; i++) {
+            val = eval("this." + this.liveProperties[i]);
+            el = document.getElementById("lava--" + this.liveProperties[i]);
+            el.innerHTML = val;
         }
     }
 }

@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -50,6 +50,7 @@ var Game = function () {
         * The deads starts at 0
         */
         this.deads = 0;
+        this.liveProperties = ["score", "deads"];
     }
     /**
     * @param {event} e Get the onkeydown event
@@ -57,7 +58,7 @@ var Game = function () {
 
 
     _createClass(Game, [{
-        key: 'move',
+        key: "move",
         value: function move(e) {
             e = e || window.event;
             /* we need to get the player's location for each move  */
@@ -93,6 +94,7 @@ var Game = function () {
             */
             this.checkWinner(playerLocation, this.coinsLocation);
             this.checkLava(playerLocation, this.lavaLocation);
+            this.liveUpdate();
         }
         /**
         * Check if they won some coins
@@ -102,15 +104,15 @@ var Game = function () {
         */
 
     }, {
-        key: 'checkWinner',
+        key: "checkWinner",
         value: function checkWinner(playerLocation, coinsLocation) {
             /* loop through coins and check for overlap */
             for (var i = 0; i < this.coinsLocation.length; i++) {
                 /* if they overlap, they get a little prize */
                 if (this.checkOverlap(playerLocation, this.coinsLocation[i])) {
                     this.score++;
-                    console.log('yay, much coens good.');
-                    console.log('you have ' + this.score + ' coens, k?');
+                    //console.log('yay, much coens good.');
+                    //console.log('you have ' + this.score + ' coens, k?');
                 }
             }
         }
@@ -122,7 +124,7 @@ var Game = function () {
         */
 
     }, {
-        key: 'checkLava',
+        key: "checkLava",
         value: function checkLava(playerLocation, lavaLocation) {
             /* loop through the lavas */
             for (var i = 0; i < this.lavaLocation.length; i++) {
@@ -130,7 +132,8 @@ var Game = function () {
                 if (this.checkOverlap(playerLocation, this.lavaLocation[i])) {
                     /* when ded reset score to 0 */
                     this.score = 0;
-                    console.log('you much dead. -1 for u.');
+                    this.deads++;
+                    //console.log('you much dead. -1 for u.');
                 }
             }
         }
@@ -143,7 +146,7 @@ var Game = function () {
         */
 
     }, {
-        key: 'checkOverlap',
+        key: "checkOverlap",
         value: function checkOverlap(rectOne, rectTwo) {
             var overlap = !(rectOne.right < rectTwo.left || rectOne.left > rectTwo.right || rectOne.bottom < rectTwo.top || rectOne.top > rectTwo.bottom);
             return overlap;
@@ -153,7 +156,7 @@ var Game = function () {
         */
 
     }, {
-        key: 'populateCoinLocations',
+        key: "populateCoinLocations",
         value: function populateCoinLocations() {
             for (var i = 0; i < this.coins.length; i++) {
                 this.coinsLocation[i] = this.coins[i].getBoundingClientRect();
@@ -164,10 +167,25 @@ var Game = function () {
         */
 
     }, {
-        key: 'populateLavaLocations',
+        key: "populateLavaLocations",
         value: function populateLavaLocations() {
             for (var i = 0; i < this.lava.length; i++) {
                 this.lavaLocation[i] = this.lava[i].getBoundingClientRect();
+            }
+        }
+        /**
+        * Update the containers with the latest value in the property
+        */
+
+    }, {
+        key: "liveUpdate",
+        value: function liveUpdate() {
+            var val = void 0;
+            var el = void 0;
+            for (var i = 0; i < this.liveProperties.length; i++) {
+                val = eval("this." + this.liveProperties[i]);
+                el = document.getElementById("lava--" + this.liveProperties[i]);
+                el.innerHTML = val;
             }
         }
     }]);
