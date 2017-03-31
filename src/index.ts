@@ -10,7 +10,10 @@ class Game {
 
     public distance: any;
 
+    public liveProperties: string[];
+
     public score: number;
+    public deads: number;
 
     /**
     * Construct the game!
@@ -56,6 +59,13 @@ class Game {
          * The score starts at 0
          */
         this.score = 0;
+
+        /**
+        * The deads starts at 0
+        */
+        this.deads = 0;
+
+        this.liveProperties = ["score", "deads"];
 	}
 
     /**
@@ -97,8 +107,10 @@ class Game {
         * did player think the lava was kool-aid and now much ded.
         * must check for these things.
         */
-		this.checkWinner(playerLocation, this.coinsLocation, this.incrementScore);
+		this.checkWinner(playerLocation, this.coinsLocation);
 		this.checkLava(playerLocation, this.lavaLocation);
+
+        this.liveUpdate();
 	}
 
     /**
@@ -113,8 +125,8 @@ class Game {
             /* if they overlap, they get a little prize */
             if(this.checkOverlap(playerLocation, this.coinsLocation[i])) {
                 this.score++;
-                console.log('yay, much coens good.');
-                console.log('you have ' + this.score + ' coens, k?');
+                //console.log('yay, much coens good.');
+                //console.log('you have ' + this.score + ' coens, k?');
             }
         }
     }
@@ -132,7 +144,8 @@ class Game {
             if(this.checkOverlap(playerLocation, this.lavaLocation[i])) {
                 /* when ded reset score to 0 */
                 this.score = 0;
-                console.log('you much dead. -1 for u.');
+                this.deads++;
+                //console.log('you much dead. -1 for u.');
             }
         }
     }
@@ -145,9 +158,9 @@ class Game {
     * @param {any} rectTwo
     */
 	private checkOverlap(rectOne: any, rectTwo: any) {
-		var overlap = !(rectOne.right < rectTwo.left || 
-	        rectOne.left > rectTwo.right || 
-	        rectOne.bottom < rectTwo.top || 
+		var overlap = !(rectOne.right < rectTwo.left ||
+	        rectOne.left > rectTwo.right ||
+	        rectOne.bottom < rectTwo.top ||
 	        rectOne.top > rectTwo.bottom)
 		return overlap;
     }
@@ -167,6 +180,19 @@ class Game {
     private populateLavaLocations() {
         for(var i=0; i<this.lava.length; i++) {
             this.lavaLocation[i] = this.lava[i].getBoundingClientRect();
+        }
+    }
+
+    /**
+    * Update the containers with the latest value in the property
+    */
+    private liveUpdate() {
+        let val;
+        let el;
+        for(var i=0;i<this.liveProperties.length; i++) {
+            val = eval("this." + this.liveProperties[i]);
+            el = document.getElementById("lava--" + this.liveProperties[i]);
+            el.innerHTML = val;
         }
     }
 }
