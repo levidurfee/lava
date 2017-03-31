@@ -112,8 +112,7 @@ class Game {
         for(var i=0; i<this.coinsLocation.length; i++) {
             /* if they overlap, they get a little prize */
             if(this.checkOverlap(playerLocation, this.coinsLocation[i])) {
-                /* callback fixes #4 */
-                this.incrementScore();
+                this.score++;
                 console.log('yay, much coens good.');
                 console.log('you have ' + this.score + ' coens, k?');
             }
@@ -131,7 +130,8 @@ class Game {
 	    for(var i=0; i<this.lavaLocation.length; i++) {
             /* check if player is in there somewhere */
             if(this.checkOverlap(playerLocation, this.lavaLocation[i])) {
-                /* not sure what will happen after death */
+                /* when ded reset score to 0 */
+                this.score = 0;
                 console.log('you much dead. -1 for u.');
             }
         }
@@ -168,13 +168,6 @@ class Game {
         for(var i=0; i<this.lava.length; i++) {
             this.lavaLocation[i] = this.lava[i].getBoundingClientRect();
         }
-    }
-
-    /**
-     * incrementScore by one.
-     */
-    private incrementScore() {
-        this.score++;
     }
 }
 
