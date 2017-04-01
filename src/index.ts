@@ -287,15 +287,24 @@ class Game {
         }
     }
 
+    /**
+     * Check if the user is allowed to move in that direction.
+     * @param {string} move
+     */
     private checkAllowedMove(move: string) {
+        // if no moves are disabled, they can move in any direction
         if(this.disabledMoves.length == 0) {
             return true;
         }
+        // loop through all disabled moves
         for(var i=0; i<this.disabledMoves.length; i++) {
+            // check if they are allowed to move in that direction
             if(move == this.disabledMoves[i]) {
+                // return false if that move is disabled
                 return false;
             }
         }
+        // otherwise return true
         return true;
     }
 
