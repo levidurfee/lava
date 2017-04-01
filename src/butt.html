@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>game</title>
+  <style type="text/css">
+    body, div, p, span {margin:0;padding:0;}
+    body {background-color:#34a6fb;}
+
+    .player {background-color: #404040;}
+    .land {background-color: #007E33;}
+    .lava {background-color: #ff6363;}
+    .coins {background-color: #f1e559;}
+
+    .coin {
+      position: absolute;
+      width:50px; height:50px;
+    }
+    .coin__1 {bottom:60%;left:15%;}
+    .coin__2 {bottom:60%;left:25%;}
+    #box1 {
+      width:40%;
+      height:300px;
+      position:fixed;
+      bottom:0;
+    }
+    #box2__lava {
+      width:20%;
+      height:200px;
+      position:fixed;
+      bottom:0;
+      left:40%;
+    }
+    #box3 {
+      width:40%;
+      height:300px;
+      position:fixed;
+      bottom:0;
+      right:0;
+    }
+
+    .player {width:30px;height:50px;color:#ffffff;line-height: 50px;text-align: center;font-family: Verdana,Geneva,sans-serif}
+    .player__1 {position: absolute;bottom:300px; left:75%}
+    .player {background-color: #404040;}
+
+    #score {
+      position:absolute;
+      top:5px;
+      right:5px;
+      width:120px;
+      height:40px;
+      border:5px solid #000;
+      font-family: Verdana,Geneva,sans-serif;
+    }
+    .score__tracker {display:inline;}
+  </style>
+</head>
+<body>
+  <!-- score -->
+  <div id="score">
+    Coins:
+    <div class="score__tracker" id="lava--score">0</div>
+    Deads:
+    <div class="score__tracker" id="lava--deads">0</div>
+  </div>
+  <!-- /score -->
+
+  <!-- coins -->
+  <div class="coins coin coin__1"></div>
+  <div class="coins coin coin__2"></div>
+  <!-- /coins -->
+
+  <!-- land/lavas -->
+  <div class="land" id="box1"></div>
+  <div class="lavas lava" id="box2__lava"></div>
+  <div class="land" id="box3"></div>
+  <!-- /land/lavas -->
+
+  <!-- player -->
+  <div class="player player__1">p</div>
+  <!-- /player -->
+
+  <script type="text/javascript" src="es2015/index.js"></script>
+  <script type="text/javascript">
+    game = new Game('.player__1', '.coins', '.lavas', 20);
+    document.onkeydown = function(e) {
+      game.move(e);
+    }
+  </script>
+</body>
+</html>
