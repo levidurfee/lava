@@ -17,6 +17,8 @@ class Game {
         this.coinsLocation = Array();
         this.lavaLocation = Array();
         this.landsLocation = Array();
+        /* keep track of disabled moves */
+        this.disabledMoves = Array();
         /**
         * Since there is more than one coin, I need to get the coords
         * for both coins.
@@ -56,6 +58,10 @@ class Game {
          * @type {Array}
          */
         this.liveProperties = ["score", "deads"];
+        Game.UP = '38';
+        Game.DOWN = '40';
+        Game.LEFT = '37';
+        Game.RIGHT = '39';
     }
     /**
     * @param {event} e Get the onkeydown event
@@ -70,25 +76,27 @@ class Game {
         * The player will attempt to make a move. Will eventually restrict
         * movement so the player can't go through walls or off the screen
         */
-        if (e.keyCode == '38') {
+        if (e.keyCode == Game.UP) {
             /* if the player moved up  */
             newLocation = playerLocation.top - this.distance;
             this.player.style.top = newLocation + 'px';
         }
-        else if (e.keyCode == '40') {
+        else if (e.keyCode == Game.DOWN) {
             /* if the player moved down */
             newLocation = playerLocation.top + this.distance;
             this.player.style.top = newLocation + 'px';
         }
-        else if (e.keyCode == '37') {
+        else if (e.keyCode == Game.LEFT && this.checkAllowedMove(Game.LEFT)) {
             /* if the player moved left */
             newLocation = playerLocation.left - this.distance;
             this.player.style.left = newLocation + 'px';
+            this.enableMove(Game.RIGHT);
         }
-        else if (e.keyCode == '39') {
+        else if (e.keyCode == Game.RIGHT) {
             /* if the player moved right */
             newLocation = playerLocation.left + this.distance;
             this.player.style.left = newLocation + 'px';
+            this.enableMove(Game.LEFT);
         }
         /**
          * Player's last move needs to be stored so we can prevent him from
@@ -156,12 +164,30 @@ class Game {
         /* First check if they're trying to go off the screen. */
         // Left
         if (playerLocation.left <= 0) {
+            this.disableMove(Game.LEFT);
         }
     }
     disableMove(move) {
-        this.disabledMoves[] = move;
+        this.disabledMoves.push(move);
     }
     enableMove(move) {
+        for (var i = 0; i < this.disabledMoves.length; i++) {
+            let index = this.disabledMoves.indexOf(move);
+            if (index > -1) {
+                this.disabledMoves.splice(index, 1);
+            }
+        }
+    }
+    checkAllowedMove(move) {
+        if (this.disabledMoves.length == 0) {
+            return true;
+        }
+        for (var i = 0; i < this.disabledMoves.length; i++) {
+            if (move == this.disabledMoves[i]) {
+                return false;
+            }
+        }
+        return true;
     }
     /**
     * Check if the one html object is overlapping another

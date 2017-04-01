@@ -25,6 +25,8 @@ var Game = function () {
         this.coinsLocation = Array();
         this.lavaLocation = Array();
         this.landsLocation = Array();
+        /* keep track of disabled moves */
+        this.disabledMoves = Array();
         /**
         * Since there is more than one coin, I need to get the coords
         * for both coins.
@@ -63,6 +65,10 @@ var Game = function () {
          * @type {Array}
          */
         this.liveProperties = ["score", "deads"];
+        Game.UP = '38';
+        Game.DOWN = '40';
+        Game.LEFT = '37';
+        Game.RIGHT = '39';
     }
     /**
     * @param {event} e Get the onkeydown event
@@ -81,22 +87,24 @@ var Game = function () {
             * The player will attempt to make a move. Will eventually restrict
             * movement so the player can't go through walls or off the screen
             */
-            if (e.keyCode == '38') {
+            if (e.keyCode == Game.UP) {
                 /* if the player moved up  */
                 newLocation = playerLocation.top - this.distance;
                 this.player.style.top = newLocation + 'px';
-            } else if (e.keyCode == '40') {
+            } else if (e.keyCode == Game.DOWN) {
                 /* if the player moved down */
                 newLocation = playerLocation.top + this.distance;
                 this.player.style.top = newLocation + 'px';
-            } else if (e.keyCode == '37') {
+            } else if (e.keyCode == Game.LEFT && this.checkAllowedMove(Game.LEFT)) {
                 /* if the player moved left */
                 newLocation = playerLocation.left - this.distance;
                 this.player.style.left = newLocation + 'px';
-            } else if (e.keyCode == '39') {
+                this.enableMove(Game.RIGHT);
+            } else if (e.keyCode == Game.RIGHT) {
                 /* if the player moved right */
                 newLocation = playerLocation.left + this.distance;
                 this.player.style.left = newLocation + 'px';
+                this.enableMove(Game.LEFT);
             }
             /**
              * Player's last move needs to be stored so we can prevent him from
@@ -172,7 +180,37 @@ var Game = function () {
         value: function checkBoundary(playerLocation) {
             /* First check if they're trying to go off the screen. */
             // Left
-            if (playerLocation.left <= 0) {}
+            if (playerLocation.left <= 0) {
+                this.disableMove(Game.LEFT);
+            }
+        }
+    }, {
+        key: "disableMove",
+        value: function disableMove(move) {
+            this.disabledMoves.push(move);
+        }
+    }, {
+        key: "enableMove",
+        value: function enableMove(move) {
+            for (var i = 0; i < this.disabledMoves.length; i++) {
+                var index = this.disabledMoves.indexOf(move);
+                if (index > -1) {
+                    this.disabledMoves.splice(index, 1);
+                }
+            }
+        }
+    }, {
+        key: "checkAllowedMove",
+        value: function checkAllowedMove(move) {
+            if (this.disabledMoves.length == 0) {
+                return true;
+            }
+            for (var i = 0; i < this.disabledMoves.length; i++) {
+                if (move == this.disabledMoves[i]) {
+                    return false;
+                }
+            }
+            return true;
         }
         /**
         * Check if the one html object is overlapping another

@@ -53,6 +53,9 @@ class Game {
         this.lavaLocation = Array();
         this.landsLocation = Array();
 
+        /* keep track of disabled moves */
+        this.disabledMoves = Array();
+
         /**
         * Since there is more than one coin, I need to get the coords
         * for both coins.
@@ -127,14 +130,16 @@ class Game {
 			/* if the player moved down */
             newLocation = <number>playerLocation.top + this.distance;
 			this.player.style.top = newLocation + 'px';
-		} else if (e.keyCode == Game.LEFT) {
+		} else if (e.keyCode == Game.LEFT && this.checkAllowedMove(Game.LEFT)) {
 			/* if the player moved left */
             newLocation = <number>playerLocation.left - this.distance;
 			this.player.style.left = newLocation + 'px';
+            this.enableMove(Game.RIGHT);
 		} else if (e.keyCode == Game.RIGHT) {
 			/* if the player moved right */
             newLocation = <number>playerLocation.left + this.distance;
 			this.player.style.left = newLocation + 'px';
+            this.enableMove(Game.LEFT);
 		}
 
         /**
@@ -209,7 +214,7 @@ class Game {
         /* First check if they're trying to go off the screen. */
         // Left
         if(playerLocation.left <= 0) {
-
+            this.disableMove(Game.LEFT);
         }
     }
 
@@ -218,7 +223,24 @@ class Game {
     }
 
     private enableMove(move: string) {
-        // remove from array
+        for(var i=0; i<this.disabledMoves.length; i++) {
+            let index = this.disabledMoves.indexOf(move);
+            if(index > -1) {
+                this.disabledMoves.splice(index, 1);
+            }
+        }
+    }
+
+    private checkAllowedMove(move: string) {
+        if(this.disabledMoves.length == 0) {
+            return true;
+        }
+        for(var i=0; i<this.disabledMoves.length; i++) {
+            if(move == this.disabledMoves[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
