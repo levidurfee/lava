@@ -176,8 +176,6 @@ var Game = function () {
                 /* if they overlap, they get a little prize */
                 if (this.checkOverlap(playerLocation, this.coinsLocation[i])) {
                     this.score++;
-                    //console.log('yay, much coens good.');
-                    //console.log('you have ' + this.score + ' coens, k?');
                 }
             }
         }
