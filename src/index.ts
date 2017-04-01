@@ -5,6 +5,8 @@ class Game {
     static DOWN: string;
     static LEFT: string;
     static RIGHT: string;
+    static DIRECTION: any;
+    static OPP_DIRECTION: any;
 
 	public player: any;
 	
@@ -128,6 +130,19 @@ class Game {
          * @type {String}
          */
         Game.RIGHT = '39';
+
+        Game.DIRECTION = {
+            'up': Game.UP,
+            'down': Game.DOWN,
+            'left': Game.LEFT,
+            'right': Game.RIGHT,
+        };
+        Game.OPP_DIRECTION = {
+            'up': Game.DOWN,
+            'down': Game.UP,
+            'left': Game.RIGHT,
+            'right': Game.LEFT,
+        };
 	}
 
     /**
@@ -186,10 +201,12 @@ class Game {
 
         /**
          * Player can't go through walls.
+         * We get the player's new location, since he is moved above, this
+         * keeps us from freezing him after he moves away from the border
          * 
          * @param {any} playerLocation Player's current location.
          */
-        this.checkBoundary(playerLocation, e.keyCode);
+        this.checkBoundary(this.player.getBoundingClientRect(), e.keyCode);
 
         /*
         * check player's location after each move
@@ -272,7 +289,7 @@ class Game {
 
         /* Check if player is going into land */
         if(this.checkLand(playerLocation)) {
-            this.disableMove(move);
+            this.disableMove(move.toString());
         }
     }
 
@@ -377,4 +394,3 @@ class Game {
         }
     }
 }
-

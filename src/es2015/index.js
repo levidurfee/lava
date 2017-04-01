@@ -101,6 +101,18 @@ let Game = function() {
          * @type {String}
          */
         Game.RIGHT = '39';
+        Game.DIRECTION = {
+            'up': Game.UP,
+            'down': Game.DOWN,
+            'left': Game.LEFT,
+            'right': Game.RIGHT,
+        };
+        Game.OPP_DIRECTION = {
+            'up': Game.DOWN,
+            'down': Game.UP,
+            'left': Game.RIGHT,
+            'right': Game.LEFT,
+        };
     }
     /**
     * @param {event} e Get the onkeydown event
@@ -158,10 +170,12 @@ let Game = function() {
             this.lastMove = e.keyCode;
             /**
              * Player can't go through walls.
+             * We get the player's new location, since he is moved above, this
+             * keeps us from freezing him after he moves away from the border
              *
              * @param {any} playerLocation Player's current location.
              */
-            this.checkBoundary(playerLocation, e.keyCode);
+            this.checkBoundary(this.player.getBoundingClientRect(), e.keyCode);
             /*
             * check player's location after each move
             * did player get some COINS?! or
@@ -248,7 +262,7 @@ let Game = function() {
             /* the browser prevents them from going too far right */
             /* Check if player is going into land */
             if (this.checkLand(playerLocation)) {
-                this.disableMove(move);
+                this.disableMove(move.toString());
             }
         },
         /**
