@@ -16,6 +16,7 @@ class Game {
     private deads: number;
 
     private lastMove: string;
+    private disabledMove: string;
 
     /**
     * Construct the game!
@@ -108,6 +109,14 @@ class Game {
             newLocation = <number>playerLocation.left + this.distance;
 			this.player.style.left = newLocation + 'px';
 		}
+
+        /**
+         * Player's last move needs to be stored so we can prevent him from
+         * going outside the boundaries.
+         *  
+         * @type {string}
+         */
+        this.lastMove = e.keyCode;
 
         /*
         * check player's location after each move
