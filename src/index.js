@@ -141,7 +141,7 @@ class Game {
          *
          * @param {any} playerLocation Player's current location.
          */
-        this.checkBoundary(playerLocation);
+        this.checkBoundary(playerLocation, e.keyCode);
         /*
         * check player's location after each move
         * did player get some COINS?! or
@@ -201,7 +201,7 @@ class Game {
      *
      * @param {any} playerLocation Player's current location.
      */
-    checkBoundary(playerLocation) {
+    checkBoundary(playerLocation, move) {
         /* First check if they're trying to go off the screen. */
         // Up
         if (playerLocation.top <= 0) {
@@ -216,6 +216,9 @@ class Game {
         // Right
         /* the browser prevents them from going too far right */
         /* Check if player is going into land */
+        if (this.checkLand(playerLocation)) {
+            this.disableMove(move);
+        }
     }
     /**
      * Disable the option to move in a certain direction.

@@ -189,7 +189,7 @@ class Game {
          * 
          * @param {any} playerLocation Player's current location.
          */
-        this.checkBoundary(playerLocation);
+        this.checkBoundary(playerLocation, e.keyCode);
 
         /*
         * check player's location after each move
@@ -255,7 +255,7 @@ class Game {
      * 
      * @param {any} playerLocation Player's current location.
      */
-    private checkBoundary(playerLocation: any) {
+    private checkBoundary(playerLocation: any, move?: string) {
         /* First check if they're trying to go off the screen. */
         // Up
         if(playerLocation.top <= 0) {
@@ -271,6 +271,9 @@ class Game {
         /* the browser prevents them from going too far right */
 
         /* Check if player is going into land */
+        if(this.checkLand(playerLocation)) {
+            this.disableMove(move);
+        }
     }
 
     /**
