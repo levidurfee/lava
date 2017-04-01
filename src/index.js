@@ -7,14 +7,16 @@ class Game {
     * @param {string} lava CSS Selector for lava(s)
     * @param {number} distance The distance the player travels
     */
-    constructor(player, coins, lava, distance) {
+    constructor(player, coins, lava, lands, distance) {
         /* currently only supports one player  */
         this.player = document.querySelectorAll(player)[0];
         this.coins = document.querySelectorAll(coins);
         this.lava = document.querySelectorAll(lava);
+        this.lands = document.querySelectorAll(lands);
         /* these are arrays! and they hold the location(s) */
         this.coinsLocation = Array();
         this.lavaLocation = Array();
+        this.landsLocation = Array();
         /**
         * Since there is more than one coin, I need to get the coords
         * for both coins.
@@ -24,6 +26,10 @@ class Game {
         * There could be more than one lava pit! AHH
         */
         this.populateLavaLocations();
+        /**
+         * Constrain player.
+         */
+        this.populateLandLocations();
         /**
         * Check and see if the distance param was passed. If it was then set
         * the distance property equal to the param. If it wasn't, use the
@@ -164,6 +170,14 @@ class Game {
     populateLavaLocations() {
         for (var i = 0; i < this.lava.length; i++) {
             this.lavaLocation[i] = this.lava[i].getBoundingClientRect();
+        }
+    }
+    /**
+     * Build the property landsLocation array
+     */
+    populateLandLocations() {
+        for (var i = 0; i < this.lands.length; i++) {
+            this.landsLocation[i] = this.lands[i].getBoundingClientRect();
         }
     }
     /**

@@ -2,10 +2,14 @@ interface gameCallback { (): void }
 
 class Game {
 	public player: any;
-	public coins: any;
+	
+    public coins: any;
 	public coinsLocation: any;
 	public lava: any;
 	public lavaLocation: any;
+    public lands: any;
+    public landsLocation: any;
+
 	public listener: any;
 
     public distance: any;
@@ -26,15 +30,23 @@ class Game {
     * @param {string} lava CSS Selector for lava(s)
     * @param {number} distance The distance the player travels
     */
-	constructor(player: string, coins: string, lava: string, distance?: number) {
+	constructor(
+        player: string, 
+        coins: string, 
+        lava: string,
+        lands: string,
+        distance?: number
+        ) {
         /* currently only supports one player  */
 		this.player = document.querySelectorAll(player)[0];
 		this.coins = document.querySelectorAll(coins);
 		this.lava = document.querySelectorAll(lava);
+        this.lands = document.querySelectorAll(lands);
 
         /* these are arrays! and they hold the location(s) */
         this.coinsLocation = Array();
         this.lavaLocation = Array();
+        this.landsLocation = Array();
 
         /**
         * Since there is more than one coin, I need to get the coords
@@ -46,6 +58,11 @@ class Game {
         * There could be more than one lava pit! AHH
         */
         this.populateLavaLocations();
+
+        /**
+         * Constrain player.
+         */
+        this.populateLandLocations();
 
         /**
         * Check and see if the distance param was passed. If it was then set
@@ -197,6 +214,15 @@ class Game {
     private populateLavaLocations() {
         for(var i=0; i<this.lava.length; i++) {
             this.lavaLocation[i] = this.lava[i].getBoundingClientRect();
+        }
+    }
+
+    /**
+     * Build the property landsLocation array
+     */
+    private populateLandLocations() {
+        for(var i=0; i<this.lands.length; i++) {
+            this.landsLocation[i] = this.lands[i].getBoundingClientRect();
         }
     }
 
