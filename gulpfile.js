@@ -4,6 +4,7 @@ const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 const pump = require('pump');
 const tsProject = ts.createProject("tsconfig.json");
+const eslint = require('gulp-eslint');
 
 gulp.task("compile", function () {
   return tsProject.src()
@@ -26,6 +27,11 @@ gulp.task('build', function() {
     .pipe(babel({
       presets: ['es2015']
     }))
+    .pipe(eslint({
+      extends: "google",
+      fix: true
+    }))
+    .pipe(eslint.format())
     .pipe(gulp.dest('src/es2015'));
 });
 

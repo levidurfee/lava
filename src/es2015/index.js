@@ -1,37 +1,58 @@
-"use strict";
+'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+let _createClass = function() {
+ function defineProperties(target, props) {
+ for (let i = 0; i < props.length; i++) {
+ let descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); 
+} 
+} return function(Constructor, protoProps, staticProps) {
+ if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; 
+}; 
+}();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) {
+ if (!(instance instanceof Constructor)) {
+ throw new TypeError('Cannot call a class as a function'); 
+} 
+}
 
-var Game = function () {
+let Game = function() {
     /**
     * Construct the game!
     *
     * @param {string} player Currently only 1p
     * @param {string} coins CSS Selector for coins
     * @param {string} lava CSS Selector for lava(s)
+    * @param {string} land CSS selector
     * @param {number} distance The distance the player travels
     */
-    function Game(player, coins, lava, distance) {
+    function Game(player, coins, lava, lands, distance) {
         _classCallCheck(this, Game);
 
         /* currently only supports one player  */
         this.player = document.querySelectorAll(player)[0];
         this.coins = document.querySelectorAll(coins);
         this.lava = document.querySelectorAll(lava);
+        this.lands = document.querySelectorAll(lands);
         /* these are arrays! and they hold the location(s) */
         this.coinsLocation = Array();
         this.lavaLocation = Array();
+        this.landsLocation = Array();
+        /* keep track of disabled moves (so they can't go off screen) */
+        this.disabledMoves = Array();
         /**
         * Since there is more than one coin, I need to get the coords
-        * for both coins.
+        * for all coins.
         */
         this.populateCoinLocations();
         /**
         * There could be more than one lava pit! AHH
         */
         this.populateLavaLocations();
+        /**
+         * Constrain player.
+         */
+        this.populateLandLocations();
         /**
         * Check and see if the distance param was passed. If it was then set
         * the distance property equal to the param. If it wasn't, use the
@@ -50,7 +71,48 @@ var Game = function () {
         * The deads starts at 0
         */
         this.deads = 0;
-        this.liveProperties = ["score", "deads"];
+        /**
+         * An array of properties that will update their HTML counterparts
+         * after each move. So the page always reflects the latest data.
+         *
+         * @type {Array}
+         */
+        this.liveProperties = ['score', 'deads'];
+        /*
+        Static properties for direction are easier to remember / have more meaning.
+        */
+        /**
+         * Keyboard "UP" arrow key
+         * @type {String}
+         */
+        Game.UP = '38';
+        /**
+         * Keyboard "DOWN" arrow key
+         * @type {String}
+         */
+        Game.DOWN = '40';
+        /**
+         * Keyboard "LEFT" arrow key
+         * @type {String}
+         */
+        Game.LEFT = '37';
+        /**
+         * Keyboard "RIGHT" arrow key
+         * @type {String}
+         */
+        Game.RIGHT = '39';
+        Game.DIRECTION = {
+            'up': Game.UP,
+            'down': Game.DOWN,
+            'left': Game.LEFT,
+            'right': Game.RIGHT,
+        };
+        Game.OPP_DIRECTION = {
+            'up': Game.DOWN,
+            'down': Game.UP,
+            'left': Game.RIGHT,
+            'right': Game.LEFT,
+        };
     }
     /**
     * @param {event} e Get the onkeydown event
@@ -58,34 +120,62 @@ var Game = function () {
 
 
     _createClass(Game, [{
-        key: "move",
+        key: 'move',
         value: function move(e) {
             e = e || window.event;
             /* we need to get the player's location for each move  */
-            var playerLocation = this.player.getBoundingClientRect();
+            let playerLocation = this.player.getBoundingClientRect();
             /* where ya going playa?  */
-            var newLocation = void 0;
+            let newLocation = void 0;
             /**
-            * The player will attempt to make a move. Will eventually restrict
-            * movement so the player can't go through walls or off the screen
-            */
-            if (e.keyCode == '38') {
-                /* if the player moved up  */
+             * Check which direction the player is trying to move and if
+             * he is allowed to move in that direction.
+             * @todo clean this up - it's jumbled.
+             */
+            if (e.keyCode == Game.UP && this.checkAllowedMove(Game.UP)) {
+                /* get new location */
                 newLocation = playerLocation.top - this.distance;
+                /* move the player */
                 this.player.style.top = newLocation + 'px';
-            } else if (e.keyCode == '40') {
-                /* if the player moved down */
+                /* enable opposite direction */
+                this.enableMove(Game.DOWN);
+            } else if (e.keyCode == Game.DOWN && this.checkAllowedMove(Game.DOWN)) {
+                /* get new location */
                 newLocation = playerLocation.top + this.distance;
+                /* move the player */
                 this.player.style.top = newLocation + 'px';
-            } else if (e.keyCode == '37') {
-                /* if the player moved left */
+                /* enable opposite direction */
+                this.enableMove(Game.UP);
+            } else if (e.keyCode == Game.LEFT && this.checkAllowedMove(Game.LEFT)) {
+                /* get new location */
                 newLocation = playerLocation.left - this.distance;
+                /* move the player */
                 this.player.style.left = newLocation + 'px';
-            } else if (e.keyCode == '39') {
-                /* if the player moved right */
+                /* enable opposite direction */
+                this.enableMove(Game.RIGHT);
+            } else if (e.keyCode == Game.RIGHT && this.checkAllowedMove(Game.RIGHT)) {
+                /* get new location */
                 newLocation = playerLocation.left + this.distance;
+                /* move the player */
                 this.player.style.left = newLocation + 'px';
+                /* enable opposite direction */
+                this.enableMove(Game.LEFT);
             }
+            /**
+             * Player's last move needs to be stored so we can prevent him from
+             * going outside the boundaries.
+             *
+             * @type {string}
+             */
+            this.lastMove = e.keyCode;
+            /**
+             * Player can't go through walls.
+             * We get the player's new location, since he is moved above, this
+             * keeps us from freezing him after he moves away from the border
+             *
+             * @param {any} playerLocation Player's current location.
+             */
+            this.checkBoundary(this.player.getBoundingClientRect(), e.keyCode);
             /*
             * check player's location after each move
             * did player get some COINS?! or
@@ -94,8 +184,9 @@ var Game = function () {
             */
             this.checkWinner(playerLocation, this.coinsLocation);
             this.checkLava(playerLocation, this.lavaLocation);
+            /* Run liveUpdate after each move to update page. */
             this.liveUpdate();
-        }
+        },
         /**
         * Check if they won some coins
         *
@@ -104,18 +195,16 @@ var Game = function () {
         */
 
     }, {
-        key: "checkWinner",
+        key: 'checkWinner',
         value: function checkWinner(playerLocation, coinsLocation) {
             /* loop through coins and check for overlap */
-            for (var i = 0; i < this.coinsLocation.length; i++) {
+            for (let i = 0; i < this.coinsLocation.length; i++) {
                 /* if they overlap, they get a little prize */
                 if (this.checkOverlap(playerLocation, this.coinsLocation[i])) {
                     this.score++;
-                    //console.log('yay, much coens good.');
-                    //console.log('you have ' + this.score + ' coens, k?');
                 }
             }
-        }
+        },
         /**
         * Check if they swam with the lavas
         *
@@ -124,19 +213,110 @@ var Game = function () {
         */
 
     }, {
-        key: "checkLava",
+        key: 'checkLava',
         value: function checkLava(playerLocation, lavaLocation) {
             /* loop through the lavas */
-            for (var i = 0; i < this.lavaLocation.length; i++) {
+            for (let i = 0; i < this.lavaLocation.length; i++) {
                 /* check if player is in there somewhere */
                 if (this.checkOverlap(playerLocation, this.lavaLocation[i])) {
                     /* when ded reset score to 0 */
                     this.score = 0;
                     this.deads++;
-                    //console.log('you much dead. -1 for u.');
                 }
             }
-        }
+        },
+    }, {
+        key: 'checkLand',
+        value: function checkLand(playerLocation) {
+            /* loop through the lands */
+            for (let i = 0; i < this.landsLocation.length; i++) {
+                /* check if player is trying to go beyong land */
+                if (this.checkOverlap(playerLocation, this.landsLocation[i])) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        /**
+         * Make sure player can't go beyond boundary
+         * @todo Check if player is going into land.
+         *
+         * @param {any} playerLocation Player's current location.
+         */
+
+    }, {
+        key: 'checkBoundary',
+        value: function checkBoundary(playerLocation, move) {
+            /* First check if they're trying to go off the screen. */
+            // Up
+            if (playerLocation.top <= 0) {
+                this.disableMove(Game.UP);
+            }
+            // Down
+            /* the browser won't let them go too far down */
+            // Left
+            if (playerLocation.left <= 0) {
+                this.disableMove(Game.LEFT);
+            }
+            // Right
+            /* the browser prevents them from going too far right */
+            /* Check if player is going into land */
+            if (this.checkLand(playerLocation)) {
+                this.disableMove(move.toString());
+            }
+        },
+        /**
+         * Disable the option to move in a certain direction.
+         * @param {string} move
+         */
+
+    }, {
+        key: 'disableMove',
+        value: function disableMove(move) {
+            // Append it to the array
+            this.disabledMoves.push(move);
+        },
+        /**
+         * Allow the player to move in that direction.
+         * @param {string} move
+         */
+
+    }, {
+        key: 'enableMove',
+        value: function enableMove(move) {
+            // Loop through disabledMoves property and remove the 'move'
+            for (let i = 0; i < this.disabledMoves.length; i++) {
+                // Get the index of the disabledMove
+                let index = this.disabledMoves.indexOf(move);
+                if (index > -1) {
+                    // if the index does exist, remove it
+                    this.disabledMoves.splice(index, 1);
+                }
+            }
+        },
+        /**
+         * Check if the user is allowed to move in that direction.
+         * @param {string} move
+         */
+
+    }, {
+        key: 'checkAllowedMove',
+        value: function checkAllowedMove(move) {
+            // if no moves are disabled, they can move in any direction
+            if (this.disabledMoves.length == 0) {
+                return true;
+            }
+            // loop through all disabled moves
+            for (let i = 0; i < this.disabledMoves.length; i++) {
+                // check if they are allowed to move in that direction
+                if (move == this.disabledMoves[i]) {
+                    // return false if that move is disabled
+                    return false;
+                }
+            }
+            // otherwise return true
+            return true;
+        },
         /**
         * Check if the one html object is overlapping another
         * Will return true if they overlap
@@ -146,48 +326,59 @@ var Game = function () {
         */
 
     }, {
-        key: "checkOverlap",
+        key: 'checkOverlap',
         value: function checkOverlap(rectOne, rectTwo) {
-            var overlap = !(rectOne.right < rectTwo.left || rectOne.left > rectTwo.right || rectOne.bottom < rectTwo.top || rectOne.top > rectTwo.bottom);
+            let overlap = !(rectOne.right < rectTwo.left || rectOne.left > rectTwo.right || rectOne.bottom < rectTwo.top || rectOne.top > rectTwo.bottom);
             return overlap;
-        }
+        },
         /**
         * Build the property coinsLocation array
         */
 
     }, {
-        key: "populateCoinLocations",
+        key: 'populateCoinLocations',
         value: function populateCoinLocations() {
-            for (var i = 0; i < this.coins.length; i++) {
+            for (let i = 0; i < this.coins.length; i++) {
                 this.coinsLocation[i] = this.coins[i].getBoundingClientRect();
             }
-        }
+        },
         /**
         * Build the property lavaLocation array
         */
 
     }, {
-        key: "populateLavaLocations",
+        key: 'populateLavaLocations',
         value: function populateLavaLocations() {
-            for (var i = 0; i < this.lava.length; i++) {
+            for (let i = 0; i < this.lava.length; i++) {
                 this.lavaLocation[i] = this.lava[i].getBoundingClientRect();
             }
-        }
+        },
+        /**
+         * Build the property landsLocation array
+         */
+
+    }, {
+        key: 'populateLandLocations',
+        value: function populateLandLocations() {
+            for (let i = 0; i < this.lands.length; i++) {
+                this.landsLocation[i] = this.lands[i].getBoundingClientRect();
+            }
+        },
         /**
         * Update the containers with the latest value in the property
         */
 
     }, {
-        key: "liveUpdate",
+        key: 'liveUpdate',
         value: function liveUpdate() {
-            var val = void 0;
-            var el = void 0;
-            for (var i = 0; i < this.liveProperties.length; i++) {
-                val = eval("this." + this.liveProperties[i]);
-                el = document.getElementById("lava--" + this.liveProperties[i]);
+            let val = void 0;
+            let el = void 0;
+            for (let i = 0; i < this.liveProperties.length; i++) {
+                val = eval('this.' + this.liveProperties[i]);
+                el = document.getElementById('lava--' + this.liveProperties[i]);
                 el.innerHTML = val;
             }
-        }
+        },
     }]);
 
     return Game;
