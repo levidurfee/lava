@@ -28,6 +28,7 @@ gulp.task('build', function() {
       presets: ['es2015']
     }))
     .pipe(eslint({
+      extends: "google",
       fix: true
     }))
     .pipe(eslint.format())

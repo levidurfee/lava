@@ -15,7 +15,6 @@ class Game {
     public lands: any;
     public landsLocation: any;
 
-
 	public listener: any;
 
     public distance: any;
