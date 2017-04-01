@@ -153,6 +153,15 @@ class Game {
      * @param {any} playerLocation Player's current location.
      */
     checkBoundary(playerLocation) {
+        /* First check if they're trying to go off the screen. */
+        // Left
+        if (playerLocation.left <= 0) {
+        }
+    }
+    disableMove(move) {
+        this.disabledMoves[] = move;
+    }
+    enableMove(move) {
     }
     /**
     * Check if the one html object is overlapping another

@@ -1,6 +1,11 @@
 interface gameCallback { (): void }
 
 class Game {
+    static UP: string;
+    static DOWN: string;
+    static LEFT: string;
+    static RIGHT: string;
+
 	public player: any;
 	
     public coins: any;
@@ -20,7 +25,7 @@ class Game {
     private deads: number;
 
     private lastMove: string;
-    private disabledMove: string;
+    private disabledMoves: string[];
 
     /**
     * Construct the game!
@@ -92,6 +97,11 @@ class Game {
          * @type {Array}
          */
         this.liveProperties = ["score", "deads"];
+
+        Game.UP = '38';
+        Game.DOWN = '40';
+        Game.LEFT = '37';
+        Game.RIGHT = '39';
 	}
 
     /**
@@ -109,19 +119,19 @@ class Game {
         * The player will attempt to make a move. Will eventually restrict
         * movement so the player can't go through walls or off the screen
         */
-        if (e.keyCode == '38') {
+        if (e.keyCode == Game.UP) {
             /* if the player moved up  */
 			newLocation = <number>playerLocation.top - this.distance;
 			this.player.style.top = newLocation + 'px';
-		} else if (e.keyCode == '40') {
+		} else if (e.keyCode == Game.DOWN) {
 			/* if the player moved down */
             newLocation = <number>playerLocation.top + this.distance;
 			this.player.style.top = newLocation + 'px';
-		} else if (e.keyCode == '37') {
+		} else if (e.keyCode == Game.LEFT) {
 			/* if the player moved left */
             newLocation = <number>playerLocation.left - this.distance;
 			this.player.style.left = newLocation + 'px';
-		} else if (e.keyCode == '39') {
+		} else if (e.keyCode == Game.RIGHT) {
 			/* if the player moved right */
             newLocation = <number>playerLocation.left + this.distance;
 			this.player.style.left = newLocation + 'px';
@@ -196,7 +206,19 @@ class Game {
      * @param {any} playerLocation Player's current location.
      */
     private checkBoundary(playerLocation: any) {
+        /* First check if they're trying to go off the screen. */
+        // Left
+        if(playerLocation.left <= 0) {
 
+        }
+    }
+
+    private disableMove(move: string) {
+        this.disabledMoves.push(move);
+    }
+
+    private enableMove(move: string) {
+        // remove from array
     }
 
     /**
