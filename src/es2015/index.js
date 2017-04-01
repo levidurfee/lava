@@ -105,6 +105,12 @@ var Game = function () {
              * @type {string}
              */
             this.lastMove = e.keyCode;
+            /**
+             * Player can't go through walls.
+             *
+             * @param {any} playerLocation Player's current location.
+             */
+            this.checkBoundary(playerLocation);
             /*
             * check player's location after each move
             * did player get some COINS?! or
@@ -156,6 +162,14 @@ var Game = function () {
                 }
             }
         }
+        /**
+         * Make sure player can't go beyond boundary
+         * @param {any} playerLocation Player's current location.
+         */
+
+    }, {
+        key: "checkBoundary",
+        value: function checkBoundary(playerLocation) {}
         /**
         * Check if the one html object is overlapping another
         * Will return true if they overlap

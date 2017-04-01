@@ -135,6 +135,13 @@ class Game {
          */
         this.lastMove = e.keyCode;
 
+        /**
+         * Player can't go through walls.
+         * 
+         * @param {any} playerLocation Player's current location.
+         */
+        this.checkBoundary(playerLocation);
+
         /*
         * check player's location after each move
         * did player get some COINS?! or
@@ -182,6 +189,14 @@ class Game {
                 //console.log('you much dead. -1 for u.');
             }
         }
+    }
+
+    /**
+     * Make sure player can't go beyond boundary
+     * @param {any} playerLocation Player's current location.
+     */
+    private checkBoundary(playerLocation: any) {
+
     }
 
     /**
