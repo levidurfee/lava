@@ -104,28 +104,37 @@ var Game = function () {
             /* where ya going playa?  */
             var newLocation = void 0;
             /**
-            * The player will attempt to make a move. Will eventually restrict
-            * movement so the player can't go through walls or off the screen
-            */
+             * Check which direction the player is trying to move and if
+             * he is allowed to move in that direction.
+             * @todo clean this up - it's jumbled.
+             */
             if (e.keyCode == Game.UP && this.checkAllowedMove(Game.UP)) {
-                /* if the player moved up  */
+                /* get new location */
                 newLocation = playerLocation.top - this.distance;
+                /* move the player */
                 this.player.style.top = newLocation + 'px';
+                /* enable opposite direction */
                 this.enableMove(Game.DOWN);
             } else if (e.keyCode == Game.DOWN && this.checkAllowedMove(Game.DOWN)) {
-                /* if the player moved down */
+                /* get new location */
                 newLocation = playerLocation.top + this.distance;
+                /* move the player */
                 this.player.style.top = newLocation + 'px';
+                /* enable opposite direction */
                 this.enableMove(Game.UP);
             } else if (e.keyCode == Game.LEFT && this.checkAllowedMove(Game.LEFT)) {
-                /* if the player moved left */
+                /* get new location */
                 newLocation = playerLocation.left - this.distance;
+                /* move the player */
                 this.player.style.left = newLocation + 'px';
+                /* enable opposite direction */
                 this.enableMove(Game.RIGHT);
             } else if (e.keyCode == Game.RIGHT && this.checkAllowedMove(Game.RIGHT)) {
-                /* if the player moved right */
+                /* get new location */
                 newLocation = playerLocation.left + this.distance;
+                /* move the player */
                 this.player.style.left = newLocation + 'px';
+                /* enable opposite direction */
                 this.enableMove(Game.LEFT);
             }
             /**
@@ -149,6 +158,7 @@ var Game = function () {
             */
             this.checkWinner(playerLocation, this.coinsLocation);
             this.checkLava(playerLocation, this.lavaLocation);
+            /* Run liveUpdate after each move to update page. */
             this.liveUpdate();
         }
         /**
