@@ -224,17 +224,31 @@ var Game = function () {
             /* the browser prevents them from going too far right */
             /* Check if player is going into land */
         }
+        /**
+         * Disable the option to move in a certain direction.
+         * @param {string} move
+         */
+
     }, {
         key: "disableMove",
         value: function disableMove(move) {
+            // Append it to the array
             this.disabledMoves.push(move);
         }
+        /**
+         * Allow the player to move in that direction.
+         * @param {string} move
+         */
+
     }, {
         key: "enableMove",
         value: function enableMove(move) {
+            // Loop through disabledMoves property and remove the 'move'
             for (var i = 0; i < this.disabledMoves.length; i++) {
+                // Get the index of the disabledMove
                 var index = this.disabledMoves.indexOf(move);
                 if (index > -1) {
+                    // if the index does exist, remove it
                     this.disabledMoves.splice(index, 1);
                 }
             }

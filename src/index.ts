@@ -262,14 +262,26 @@ class Game {
         /* Check if player is going into land */
     }
 
+    /**
+     * Disable the option to move in a certain direction.
+     * @param {string} move
+     */
     private disableMove(move: string) {
+        // Append it to the array
         this.disabledMoves.push(move);
     }
 
+    /**
+     * Allow the player to move in that direction.
+     * @param {string} move
+     */
     private enableMove(move: string) {
+        // Loop through disabledMoves property and remove the 'move'
         for(var i=0; i<this.disabledMoves.length; i++) {
+            // Get the index of the disabledMove
             let index = this.disabledMoves.indexOf(move);
             if(index > -1) {
+                // if the index does exist, remove it
                 this.disabledMoves.splice(index, 1);
             }
         }
