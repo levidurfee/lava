@@ -12,8 +12,8 @@ class Game {
 
     public liveProperties: string[];
 
-    public score: number;
-    public deads: number;
+    private score: number;
+    private deads: number;
 
     /**
     * Construct the game!
