@@ -33,6 +33,7 @@ class Game {
     * @param {string} player Currently only 1p
     * @param {string} coins CSS Selector for coins
     * @param {string} lava CSS Selector for lava(s)
+    * @param {string} land CSS selector
     * @param {number} distance The distance the player travels
     */
 	constructor(
@@ -53,12 +54,12 @@ class Game {
         this.lavaLocation = Array();
         this.landsLocation = Array();
 
-        /* keep track of disabled moves */
+        /* keep track of disabled moves (so they can't go off screen) */
         this.disabledMoves = Array();
 
         /**
         * Since there is more than one coin, I need to get the coords
-        * for both coins.
+        * for all coins.
         */
         this.populateCoinLocations();
 
@@ -101,9 +102,31 @@ class Game {
          */
         this.liveProperties = ["score", "deads"];
 
+        /*
+        Static properties for direction are easier to remember / have more meaning.
+        */
+        /**
+         * Keyboard "UP" arrow key
+         * @type {String}
+         */
         Game.UP = '38';
+
+        /**
+         * Keyboard "DOWN" arrow key
+         * @type {String}
+         */
         Game.DOWN = '40';
+
+        /**
+         * Keyboard "LEFT" arrow key
+         * @type {String}
+         */
         Game.LEFT = '37';
+
+        /**
+         * Keyboard "RIGHT" arrow key
+         * @type {String}
+         */
         Game.RIGHT = '39';
 	}
 
