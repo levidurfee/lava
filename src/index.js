@@ -43,6 +43,12 @@ class Game {
         * The deads starts at 0
         */
         this.deads = 0;
+        /**
+         * An array of properties that will update their HTML counterparts
+         * after each move. So the page always reflects the latest data.
+         *
+         * @type {Array}
+         */
         this.liveProperties = ["score", "deads"];
     }
     /**
