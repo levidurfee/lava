@@ -211,6 +211,18 @@ let Game = function() {
                 }
             }
         },
+    }, {
+        key: 'checkLand',
+        value: function checkLand(playerLocation) {
+            /* loop through the lands */
+            for (let i = 0; i < this.landsLocation.length; i++) {
+                /* check if player is trying to go beyong land */
+                if (this.checkOverlap(playerLocation, this.landsLocation[i])) {
+                    return true;
+                }
+            }
+            return false;
+        },
         /**
          * Make sure player can't go beyond boundary
          * @todo Check if player is going into land.
