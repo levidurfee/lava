@@ -196,12 +196,13 @@ var Game = function () {
                     /* when ded reset score to 0 */
                     this.score = 0;
                     this.deads++;
-                    //console.log('you much dead. -1 for u.');
                 }
             }
         }
         /**
          * Make sure player can't go beyond boundary
+         * @todo Check if player is going into land.
+         *
          * @param {any} playerLocation Player's current location.
          */
 
@@ -214,11 +215,14 @@ var Game = function () {
                 this.disableMove(Game.UP);
             }
             // Down
+            /* the browser won't let them go too far down */
             // Left
             if (playerLocation.left <= 0) {
                 this.disableMove(Game.LEFT);
             }
             // Right
+            /* the browser prevents them from going too far right */
+            /* Check if player is going into land */
         }
     }, {
         key: "disableMove",
