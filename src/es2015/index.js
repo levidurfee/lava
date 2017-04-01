@@ -87,20 +87,22 @@ var Game = function () {
             * The player will attempt to make a move. Will eventually restrict
             * movement so the player can't go through walls or off the screen
             */
-            if (e.keyCode == Game.UP) {
+            if (e.keyCode == Game.UP && this.checkAllowedMove(Game.UP)) {
                 /* if the player moved up  */
                 newLocation = playerLocation.top - this.distance;
                 this.player.style.top = newLocation + 'px';
-            } else if (e.keyCode == Game.DOWN) {
+                this.enableMove(Game.DOWN);
+            } else if (e.keyCode == Game.DOWN && this.checkAllowedMove(Game.DOWN)) {
                 /* if the player moved down */
                 newLocation = playerLocation.top + this.distance;
                 this.player.style.top = newLocation + 'px';
+                this.enableMove(Game.UP);
             } else if (e.keyCode == Game.LEFT && this.checkAllowedMove(Game.LEFT)) {
                 /* if the player moved left */
                 newLocation = playerLocation.left - this.distance;
                 this.player.style.left = newLocation + 'px';
                 this.enableMove(Game.RIGHT);
-            } else if (e.keyCode == Game.RIGHT) {
+            } else if (e.keyCode == Game.RIGHT && this.checkAllowedMove(Game.RIGHT)) {
                 /* if the player moved right */
                 newLocation = playerLocation.left + this.distance;
                 this.player.style.left = newLocation + 'px';
@@ -179,10 +181,16 @@ var Game = function () {
         key: "checkBoundary",
         value: function checkBoundary(playerLocation) {
             /* First check if they're trying to go off the screen. */
+            // Up
+            if (playerLocation.top <= 0) {
+                this.disableMove(Game.UP);
+            }
+            // Down
             // Left
             if (playerLocation.left <= 0) {
                 this.disableMove(Game.LEFT);
             }
+            // Right
         }
     }, {
         key: "disableMove",
