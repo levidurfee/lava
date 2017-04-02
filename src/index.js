@@ -80,64 +80,43 @@ class Game {
         /**
          * Check which direction the player is trying to move and if
          * he is allowed to move in that direction.
-         * @todo clean this up - it's jumbled.
          */
         if (e.keyCode == Game.UP && this.checkAllowedMove(Game.UP)) {
-            /* get new location */
             newLocation = playerLocation.top - this.distance;
-            /* move the player */
             this.player.style.top = newLocation + 'px';
-            /* enable opposite direction */
             this.enableMove(Game.DOWN);
         }
         else if (e.keyCode == Game.DOWN && this.checkAllowedMove(Game.DOWN)) {
-            /* get new location */
             newLocation = playerLocation.top + this.distance;
-            /* move the player */
             this.player.style.top = newLocation + 'px';
-            /* enable opposite direction */
             this.enableMove(Game.UP);
         }
         else if (e.keyCode == Game.LEFT && this.checkAllowedMove(Game.LEFT)) {
-            /* get new location */
             newLocation = playerLocation.left - this.distance;
-            /* move the player */
             this.player.style.left = newLocation + 'px';
-            /* enable opposite direction */
             this.enableMove(Game.RIGHT);
         }
         else if (e.keyCode == Game.RIGHT && this.checkAllowedMove(Game.RIGHT)) {
-            /* get new location */
             newLocation = playerLocation.left + this.distance;
-            /* move the player */
             this.player.style.left = newLocation + 'px';
-            /* enable opposite direction */
             this.enableMove(Game.LEFT);
         }
-        /**
+        /*
          * Player's last move needs to be stored so we can prevent him from
          * going outside the boundaries.
          *
          * @type {string}
          */
         this.lastMove = e.keyCode;
-        /**
-         * Player can't go through walls.
-         * We get the player's new location, since he is moved above, this
-         * keeps us from freezing him after he moves away from the border
-         *
-         * @param {any} playerLocation Player's current location.
-         */
+
+        /* Check if player is going outside the boundaries */
         this.checkBoundary(this.player.getBoundingClientRect(), e.keyCode);
-        /*
-        * check player's location after each move
-        * did player get some COINS?! or
-        * did player think the lava was kool-aid and now much ded.
-        * must check for these things.
-        */
+
+        /* Check if on coin or on lava. */
         this.checkWinner(playerLocation, this.coinsLocation);
         this.checkLava(playerLocation, this.lavaLocation);
-        /* Run liveUpdate after each move to update page. */
+
+        /* Run liveUpdate properties after each move to update page. */
         this.liveUpdate();
     }
     /**
