@@ -119,6 +119,7 @@ class Game {
         /* Run liveUpdate properties after each move to update page. */
         this.liveUpdate();
     }
+
     /**
     * Check if they won some coins
     *
@@ -134,6 +135,7 @@ class Game {
             }
         }
     }
+    
     /**
     * Check if they swam with the lavas
     *
@@ -151,6 +153,13 @@ class Game {
             }
         }
     }
+
+    /**
+     * Check if player is on land
+     * 
+     * @param  {any} playerLocation
+     * @return {bool}
+     */
     checkLand(playerLocation) {
         /* loop through the lands */
         for (var i = 0; i < this.landsLocation.length; i++) {
@@ -161,31 +170,27 @@ class Game {
         }
         return false;
     }
+
     /**
      * Make sure player can't go beyond boundary
-     * @todo Check if player is going into land.
      *
      * @param {any} playerLocation Player's current location.
      */
     checkBoundary(playerLocation, move) {
         /* First check if they're trying to go off the screen. */
-        // Up
         if (playerLocation.top <= 0) {
             this.disableMove(Game.UP);
         }
-        // Down
-        /* the browser won't let them go too far down */
-        // Left
         if (playerLocation.left <= 0) {
             this.disableMove(Game.LEFT);
         }
-        // Right
-        /* the browser prevents them from going too far right */
+
         /* Check if player is going into land */
         if (this.checkLand(playerLocation)) {
             this.disableMove(move.toString());
         }
     }
+
     /**
      * Disable the option to move in a certain direction.
      * @param {string} move
@@ -194,6 +199,7 @@ class Game {
         // Append it to the array
         this.disabledMoves.push(move);
     }
+
     /**
      * Allow the player to move in that direction.
      * @param {string} move
@@ -209,6 +215,7 @@ class Game {
             }
         }
     }
+
     /**
      * Check if the user is allowed to move in that direction.
      * @param {string} move
@@ -218,6 +225,7 @@ class Game {
         if (this.disabledMoves.length == 0) {
             return true;
         }
+
         // loop through all disabled moves
         for (var i = 0; i < this.disabledMoves.length; i++) {
             // check if they are allowed to move in that direction
@@ -226,9 +234,11 @@ class Game {
                 return false;
             }
         }
+
         // otherwise return true
         return true;
     }
+
     /**
     * Check if the one html object is overlapping another
     * Will return true if they overlap
@@ -237,12 +247,15 @@ class Game {
     * @param {any} rectTwo
     */
     checkOverlap(rectOne, rectTwo) {
-        var overlap = !(rectOne.right < rectTwo.left ||
+        var overlap = !(
+            rectOne.right < rectTwo.left ||
             rectOne.left > rectTwo.right ||
             rectOne.bottom < rectTwo.top ||
-            rectOne.top > rectTwo.bottom);
+            rectOne.top > rectTwo.bottom
+            );
         return overlap;
     }
+
     /**
     * Build the property coinsLocation array
     */
@@ -251,6 +264,7 @@ class Game {
             this.coinsLocation[i] = this.coins[i].getBoundingClientRect();
         }
     }
+
     /**
     * Build the property lavaLocation array
     */
@@ -259,6 +273,7 @@ class Game {
             this.lavaLocation[i] = this.lava[i].getBoundingClientRect();
         }
     }
+
     /**
      * Build the property landsLocation array
      */
@@ -267,6 +282,7 @@ class Game {
             this.landsLocation[i] = this.lands[i].getBoundingClientRect();
         }
     }
+
     /**
     * Update the containers with the latest value in the property
     */
