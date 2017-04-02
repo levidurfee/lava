@@ -10,10 +10,3 @@ write it on my own.
 My goal is to write a game framework that will work with any level created in HTML that follows
 a few rules. I am writing it in TypeScript, compiling to ES6, and babel'ing
 (transcompiling) to ES2015.
-
-## todos
-
-- [ ] Player constraints [#2]
-- [ ] Testing [#6]
-- [ ] Another level [#8]
-
