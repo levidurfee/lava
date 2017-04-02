@@ -36,8 +36,7 @@ class Game {
         /* Distance player will travel */
         if (distance) {
             this.distance = distance;
-        }
-        else {
+        } else {
             this.distance = 10;
         }
 
@@ -85,18 +84,15 @@ class Game {
             newLocation = playerLocation.top - this.distance;
             this.player.style.top = newLocation + 'px';
             this.enableMove(Game.DOWN);
-        }
-        else if (e.keyCode == Game.DOWN && this.checkAllowedMove(Game.DOWN)) {
+        } else if (e.keyCode == Game.DOWN && this.checkAllowedMove(Game.DOWN)) {
             newLocation = playerLocation.top + this.distance;
             this.player.style.top = newLocation + 'px';
             this.enableMove(Game.UP);
-        }
-        else if (e.keyCode == Game.LEFT && this.checkAllowedMove(Game.LEFT)) {
+        } else if (e.keyCode == Game.LEFT && this.checkAllowedMove(Game.LEFT)) {
             newLocation = playerLocation.left - this.distance;
             this.player.style.left = newLocation + 'px';
             this.enableMove(Game.RIGHT);
-        }
-        else if (e.keyCode == Game.RIGHT && this.checkAllowedMove(Game.RIGHT)) {
+        } else if (e.keyCode == Game.RIGHT && this.checkAllowedMove(Game.RIGHT)) {
             newLocation = playerLocation.left + this.distance;
             this.player.style.left = newLocation + 'px';
             this.enableMove(Game.LEFT);
