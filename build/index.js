@@ -19,28 +19,35 @@ var Game = function () {
 
         /* currently only supports one player  */
         this.player = document.querySelectorAll(player)[0];
+
         this.coins = document.querySelectorAll(coins);
         this.lava = document.querySelectorAll(lava);
         this.lands = document.querySelectorAll(lands);
+
         /* these are arrays! and they hold the location(s) */
         this.coinsLocation = Array();
         this.lavaLocation = Array();
         this.landsLocation = Array();
+
         /* keep track of disabled moves (so they can't go off screen) */
         this.disabledMoves = Array();
+
         /**
         * Since there is more than one coin, I need to get the coords
         * for all coins.
         */
         this.populateCoinLocations();
+
         /**
         * There could be more than one lava pit! AHH
         */
         this.populateLavaLocations();
+
         /**
-         * Constrain player.
+         * Constrain player with land.
          */
         this.populateLandLocations();
+
         /**
         * Check and see if the distance param was passed. If it was then set
         * the distance property equal to the param. If it wasn't, use the
@@ -51,14 +58,13 @@ var Game = function () {
         } else {
             this.distance = 10;
         }
+
         /**
-         * The score starts at 0
+         * Both start at 0
          */
         this.score = 0;
-        /**
-        * The deads starts at 0
-        */
         this.deads = 0;
+
         /**
          * An array of properties that will update their HTML counterparts
          * after each move. So the page always reflects the latest data.
@@ -66,28 +72,11 @@ var Game = function () {
          * @type {Array}
          */
         this.liveProperties = ["score", "deads"];
-        /*
-        Static properties for direction are easier to remember / have more meaning.
-        */
-        /**
-         * Keyboard "UP" arrow key
-         * @type {String}
-         */
+
+        /* Map static properties to keyboard equivalent */
         Game.UP = '38';
-        /**
-         * Keyboard "DOWN" arrow key
-         * @type {String}
-         */
         Game.DOWN = '40';
-        /**
-         * Keyboard "LEFT" arrow key
-         * @type {String}
-         */
         Game.LEFT = '37';
-        /**
-         * Keyboard "RIGHT" arrow key
-         * @type {String}
-         */
         Game.RIGHT = '39';
         Game.DIRECTION = {
             'up': Game.UP,
