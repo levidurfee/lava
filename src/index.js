@@ -101,13 +101,6 @@ class Game {
             this.player.style.left = newLocation + 'px';
             this.enableMove(Game.LEFT);
         }
-        /*
-         * Player's last move needs to be stored so we can prevent him from
-         * going outside the boundaries.
-         *
-         * @type {string}
-         */
-        this.lastMove = e.keyCode;
 
         /* Check if player is going outside the boundaries */
         this.checkBoundary(this.player.getBoundingClientRect(), e.keyCode);
@@ -135,7 +128,7 @@ class Game {
             }
         }
     }
-    
+
     /**
     * Check if they swam with the lavas
     *
