@@ -1,40 +1,37 @@
-const gulp = require("gulp");
-const ts = require("gulp-typescript");
-const babel = require('gulp-babel');
-const uglify = require('gulp-uglify');
-const pump = require('pump');
-const tsProject = ts.createProject("tsconfig.json");
-const eslint = require('gulp-eslint');
+gulp = require('gulp');
+ts = require('gulp-typescript');
+babel = require('gulp-babel');
+eslint = require('gulp-eslint');
+minify = require('gulp-minify');
 
-gulp.task("compile", function () {
-  return tsProject.src()
-    .pipe(tsProject())
-    .js.pipe(gulp.dest("src"));
+gulp.task('ts', function() {
+  return gulp.src('src/index.ts')
+    .pipe(ts({
+      target: 'es6',
+    }))
+    .pipe(gulp.dest('src'));
 });
 
-gulp.task('babel', () => {
+gulp.task('babel', ['ts'], function() {
   return gulp.src('src/index.js')
     .pipe(babel({
-      presets: ['es2015']
+      presets: ['es2015'],
     }))
-    .pipe(gulp.dest('src/es2015'));
+    .pipe(gulp.dest('build'));
 });
 
-gulp.task('build', function() {
-  return tsProject.src()
-    .pipe(tsProject())
-    .js.pipe(gulp.dest("src"))
-    .pipe(babel({
-      presets: ['es2015']
+gulp.task('minify', ['ts', 'babel'], function() {
+  gulp.src('build/index.js')
+    .pipe(minify({
+      ext: {
+        min: '.min.js'
+      }
     }))
-    .pipe(eslint({
-      extends: "google",
-      fix: true
-    }))
-    .pipe(eslint.format())
-    .pipe(gulp.dest('src/es2015'));
+    .pipe(gulp.dest('build'));
 });
 
-gulp.task('default', function() {
-  gulp.watch('src/index.ts', ['build']);
+gulp.task('watch', function() {
+  gulp.watch('src/index.ts', ['ts', 'babel', 'minify']);
 });
+
+gulp.task('default', ['ts', 'babel', 'minify']);

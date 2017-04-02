@@ -1,5 +1,3 @@
-interface gameCallback { (): void }
-
 class Game {
     static UP: string;
     static DOWN: string;
