@@ -6,16 +6,16 @@ class Game {
     static DIRECTION: any;
     static OPP_DIRECTION: any;
 
-	public player: any;
-	
+    public player: any;
+    
     public coins: any;
-	public coinsLocation: any;
-	public lava: any;
-	public lavaLocation: any;
+    public coinsLocation: any;
+    public lava: any;
+    public lavaLocation: any;
     public lands: any;
     public landsLocation: any;
 
-	public listener: any;
+    public listener: any;
 
     public distance: any;
 
@@ -36,7 +36,7 @@ class Game {
     * @param {string} land CSS selector
     * @param {number} distance The distance the player travels
     */
-	constructor(
+    constructor(
         player: string, 
         coins: string, 
         lava: string,
@@ -44,9 +44,9 @@ class Game {
         distance?: number
         ) {
         /* currently only supports one player  */
-		this.player = document.querySelectorAll(player)[0];
-		this.coins = document.querySelectorAll(coins);
-		this.lava = document.querySelectorAll(lava);
+        this.player = document.querySelectorAll(player)[0];
+        this.coins = document.querySelectorAll(coins);
+        this.lava = document.querySelectorAll(lava);
         this.lands = document.querySelectorAll(lands);
 
         /* these are arrays! and they hold the location(s) */
@@ -141,53 +141,53 @@ class Game {
             'left': Game.RIGHT,
             'right': Game.LEFT,
         };
-	}
+    }
 
     /**
     * @param {event} e Get the onkeydown event
     */
-	public move(e: any) {
-		e = e || window.event;
+    public move(e: any) {
+        e = e || window.event;
         /* we need to get the player's location for each move  */
-		let playerLocation = this.player.getBoundingClientRect();
+        let playerLocation = this.player.getBoundingClientRect();
 
         /* where ya going playa?  */
-		let newLocation;
+        let newLocation;
 
-		/**
+        /**
          * Check which direction the player is trying to move and if
          * he is allowed to move in that direction.
          * @todo clean this up - it's jumbled.
          */
         if (e.keyCode == Game.UP && this.checkAllowedMove(Game.UP)) {
             /* get new location */
-			newLocation = <number>playerLocation.top - this.distance;
+            newLocation = <number>playerLocation.top - this.distance;
             /* move the player */
-			this.player.style.top = newLocation + 'px';
+            this.player.style.top = newLocation + 'px';
             /* enable opposite direction */
             this.enableMove(Game.DOWN);
-		} else if (e.keyCode == Game.DOWN && this.checkAllowedMove(Game.DOWN)) {
+        } else if (e.keyCode == Game.DOWN && this.checkAllowedMove(Game.DOWN)) {
             /* get new location */
             newLocation = <number>playerLocation.top + this.distance;
             /* move the player */
-			this.player.style.top = newLocation + 'px';
+            this.player.style.top = newLocation + 'px';
             /* enable opposite direction */
             this.enableMove(Game.UP);
-		} else if (e.keyCode == Game.LEFT && this.checkAllowedMove(Game.LEFT)) {
+        } else if (e.keyCode == Game.LEFT && this.checkAllowedMove(Game.LEFT)) {
             /* get new location */
             newLocation = <number>playerLocation.left - this.distance;
             /* move the player */
-			this.player.style.left = newLocation + 'px';
+            this.player.style.left = newLocation + 'px';
             /* enable opposite direction */
             this.enableMove(Game.RIGHT);
-		} else if (e.keyCode == Game.RIGHT && this.checkAllowedMove(Game.RIGHT)) {
+        } else if (e.keyCode == Game.RIGHT && this.checkAllowedMove(Game.RIGHT)) {
             /* get new location */
             newLocation = <number>playerLocation.left + this.distance;
             /* move the player */
-			this.player.style.left = newLocation + 'px';
+            this.player.style.left = newLocation + 'px';
             /* enable opposite direction */
             this.enableMove(Game.LEFT);
-		}
+        }
 
         /**
          * Player's last move needs to be stored so we can prevent him from
@@ -212,12 +212,12 @@ class Game {
         * did player think the lava was kool-aid and now much ded.
         * must check for these things.
         */
-		this.checkWinner(playerLocation, this.coinsLocation);
-		this.checkLava(playerLocation, this.lavaLocation);
+        this.checkWinner(playerLocation, this.coinsLocation);
+        this.checkLava(playerLocation, this.lavaLocation);
 
         /* Run liveUpdate after each move to update page. */
         this.liveUpdate();
-	}
+    }
 
     /**
     * Check if they won some coins
@@ -241,9 +241,9 @@ class Game {
     * @param {any} playerLocation
     * @param {any} lavaLocation
     */
-	private checkLava(playerLocation: any, lavaLocation: any) {
+    private checkLava(playerLocation: any, lavaLocation: any) {
         /* loop through the lavas */
-	    for(var i=0; i<this.lavaLocation.length; i++) {
+        for(var i=0; i<this.lavaLocation.length; i++) {
             /* check if player is in there somewhere */
             if(this.checkOverlap(playerLocation, this.lavaLocation[i])) {
                 /* when ded reset score to 0 */
@@ -344,12 +344,12 @@ class Game {
     * @param {any} rectOne
     * @param {any} rectTwo
     */
-	private checkOverlap(rectOne: any, rectTwo: any) {
-		var overlap = !(rectOne.right < rectTwo.left ||
-	        rectOne.left > rectTwo.right ||
-	        rectOne.bottom < rectTwo.top ||
-	        rectOne.top > rectTwo.bottom)
-		return overlap;
+    private checkOverlap(rectOne: any, rectTwo: any) {
+        var overlap = !(rectOne.right < rectTwo.left ||
+            rectOne.left > rectTwo.right ||
+            rectOne.bottom < rectTwo.top ||
+            rectOne.top > rectTwo.bottom)
+        return overlap;
     }
 
     /**
