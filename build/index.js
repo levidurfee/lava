@@ -163,7 +163,7 @@ var Game = function () {
 
         /**
          * Check if player is on land
-         * 
+         *
          * @param  {any} playerLocation
          * @return {bool}
          */
@@ -244,7 +244,7 @@ var Game = function () {
         key: "checkAllowedMove",
         value: function checkAllowedMove(move) {
             // if no moves are disabled, they can move in any direction
-            if (this.disabledMoves.length == 0) {
+            if (this.disabledMoves.length === 0) {
                 return true;
             }
 
@@ -322,7 +322,7 @@ var Game = function () {
             var val = void 0;
             var el = void 0;
             for (var i = 0; i < this.liveProperties.length; i++) {
-                val = eval("this." + this.liveProperties[i]);
+                val = eval("this." + this.liveProperties[i]); // jshint ignore:line
                 el = document.getElementById("lava--" + this.liveProperties[i]);
                 el.innerHTML = val;
             }
