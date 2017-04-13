@@ -66,6 +66,13 @@ class Game {
             'left' : Game.RIGHT,
             'right': Game.LEFT,
         };
+
+        /* maybe add this as a parameter */
+        this.gravity = true;
+
+        if(this.gravity) {
+            this.startGravity();
+        }
     }
     /**
     * @param {event} e Get the onkeydown event
@@ -107,6 +114,13 @@ class Game {
 
         /* Run liveUpdate properties after each move to update page. */
         this.liveUpdate();
+    }
+
+    /**
+    * First floor please.
+    */
+    startGravity() {
+        // here we go (down, because gravity)!
     }
 
     /**

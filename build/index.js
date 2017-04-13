@@ -74,6 +74,13 @@ var Game = function () {
             'left': Game.RIGHT,
             'right': Game.LEFT
         };
+
+        /* maybe add this as a parameter */
+        this.gravity = true;
+
+        if (this.gravity) {
+            this.startGravity();
+        }
     }
     /**
     * @param {event} e Get the onkeydown event
@@ -120,6 +127,16 @@ var Game = function () {
             /* Run liveUpdate properties after each move to update page. */
             this.liveUpdate();
         }
+
+        /**
+        * First floor please.
+        */
+
+    }, {
+        key: "startGravity",
+        value: function startGravity() {}
+        // here we go (down, because gravity)!
+
 
         /**
         * Check if they won some coins
