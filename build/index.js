@@ -134,9 +134,21 @@ var Game = function () {
 
     }, {
         key: "startGravity",
-        value: function startGravity() {}
-        // here we go (down, because gravity)!
-
+        value: function startGravity() {
+            var that = this;
+            // here we go (down, because gravity)!
+            window.setInterval(function () {
+                return that.moveDown();
+            }, 1000);
+        }
+    }, {
+        key: "moveDown",
+        value: function moveDown() {
+            var event = document.createEvent('Event');
+            event.keyCode = 40;
+            event.initEvent('keydown');
+            document.dispatchEvent(event);
+        }
 
         /**
         * Check if they won some coins

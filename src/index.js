@@ -120,7 +120,18 @@ class Game {
     * First floor please.
     */
     startGravity() {
+        var that = this;
         // here we go (down, because gravity)!
+        window.setInterval(function() {
+            return that.moveDown();
+        }, 1000);
+    }
+
+    moveDown() {
+        var event = document.createEvent('Event');
+        event.keyCode = 40;
+        event.initEvent('keydown');
+        document.dispatchEvent(event);
     }
 
     /**
