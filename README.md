@@ -7,6 +7,4 @@ write it on my own.
 
 ## goal
 
-My goal is to write a game framework that will work with any level created in HTML that follows
-a few rules. I am writing it in TypeScript, compiling to ES6, and babel'ing
-(transcompiling) to ES2015.
+My goal is to write a game framework that will work with any level created in HTML that follows a few rules.
