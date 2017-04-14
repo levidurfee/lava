@@ -8,17 +8,17 @@ gulp.task('babel', function() {
     .pipe(babel({
       presets: ['es2015'],
     }))
-    .pipe(gulp.dest('build'));
+    .pipe(gulp.dest('build/tmp'));
 });
 
 gulp.task('minify', ['babel'], function() {
-  gulp.src('build/*.js')
+    gulp.src('build/tmp/*.js')
     .pipe(minify({
       ext: {
         min: '.min.js'
       }
     }))
-    .pipe(gulp.dest('build'));
+    .pipe(gulp.dest('build/js'));
 });
 
 gulp.task('watch', function() {
@@ -26,3 +26,4 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['babel', 'minify']);
+
