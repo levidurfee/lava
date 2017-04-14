@@ -4,7 +4,7 @@ eslint = require('gulp-eslint');
 minify = require('gulp-minify');
 
 gulp.task('babel', function() {
-  return gulp.src('src/index.js')
+  return gulp.src('src/*.js')
     .pipe(babel({
       presets: ['es2015'],
     }))
@@ -12,7 +12,7 @@ gulp.task('babel', function() {
 });
 
 gulp.task('minify', ['babel'], function() {
-  gulp.src('build/index.js')
+  gulp.src('build/*.js')
     .pipe(minify({
       ext: {
         min: '.min.js'
@@ -22,7 +22,7 @@ gulp.task('minify', ['babel'], function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('src/index.js', ['babel', 'minify']);
+  gulp.watch('src/*.js', ['babel', 'minify']);
 });
 
 gulp.task('default', ['babel', 'minify']);
